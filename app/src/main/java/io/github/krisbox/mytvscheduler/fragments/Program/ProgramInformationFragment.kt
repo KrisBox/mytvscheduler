@@ -67,7 +67,7 @@ class ProgramInformationFragment(internal var id: String, internal var context: 
 
         for ( i in 0..(program.programNoOfSeasons!!.toInt()) - 1){
             println(i)
-            adapter.addFrag(EpisodeFragment(episodeList[i], context), i.toString())
+            adapter.addFrag(EpisodeFragment(episodeList[i], context), (i+1).toString())
         }
 
         viewPager.adapter = adapter
