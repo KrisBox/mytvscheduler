@@ -48,4 +48,10 @@ class Search(private val context: Context, private val query: String, private va
             return program
         }
 
+    val episodeData: ArrayList<ArrayList<Episode>>
+        get () {
+            val data = GetData(query)
+
+        }
+
 }

@@ -4,13 +4,19 @@ import android.app.Fragment
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.support.design.widget.TabLayout
+import android.support.v4.app.FragmentActivity
+import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import io.github.krisbox.mytvscheduler.Episode
+import io.github.krisbox.mytvscheduler.Program
 import io.github.krisbox.mytvscheduler.R
 import io.github.krisbox.mytvscheduler.Search
+import io.github.krisbox.mytvscheduler.adapter.EpisodePagerAdapter
 
 /**
  * Description: Shows the information of a program given an ID
@@ -30,6 +36,7 @@ class ProgramInformationFragment(internal var id: String, internal var context: 
         super.onViewCreated(view, savedInstanceState)
 
         val program = Search(context, "", id).programData
+        var episodeList = Search(context, program.programNoOfSeasons.toString(), id).episodeData
 
         val title = view?.findViewById(R.id.title) as TextView
         title.text = program.programName
@@ -46,6 +53,26 @@ class ProgramInformationFragment(internal var id: String, internal var context: 
         val overview = view.findViewById(R.id.overview) as TextView
         overview.text = program.programOverview
 
+
+        val viewPager = view.findViewById(R.id.pager) as ViewPager
+        setupViewPager(viewPager, program, episodeList)
+
+        val tab = view.findViewById(R.id.tabs) as TabLayout
+        tab.setupWithViewPager(viewPager)
+//        for(i in 0..(program.programNoOfSeasons)!!.toInt()){
+//            tab.addTab(tab.newTab().setText(i.toString()))
+//        }
+
+    }
+
+    fun setupViewPager (viewPager: ViewPager, program: Program, episodeList: ArrayList<ArrayList<Episode>>){
+        val con = activity as FragmentActivity
+        val adapter = EpisodePagerAdapter(con.supportFragmentManager)
+        for ( i in 0..program.programNoOfSeasons!!.toInt()){
+            adapter.addFrag(EpisodeFragment(episodeList[i]), i.toString())
+        }
+
+        viewPager.adapter = adapter
     }
 
 }

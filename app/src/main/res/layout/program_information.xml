@@ -28,8 +28,9 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/backdrop">
+                android:layout_height="wrap_content"
+                android:layout_below="@id/backdrop"
+                android:id ="@+id/textContent">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -76,6 +77,27 @@
                 android:text=""
                 android:textColor="#ffffff"/>
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/textContent">
+
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:tabMode="scrollable"
+                    app:tabGravity="fill" />
+
+                <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:id="@+id/pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:context="net.voidynullness.android.tabitytabs.TabLayoutActivity">
+                </android.support.v4.view.ViewPager>
+
+            </RelativeLayout>
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>

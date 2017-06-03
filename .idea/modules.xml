@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/MyTVScheduler.iml" filepath="$PROJECT_DIR$/MyTVScheduler.iml" />
       <module fileurl="file://C:\Users\Kris\Documents\Android Projects\mytvscheduler\MyTVScheduler.iml" filepath="C:\Users\Kris\Documents\Android Projects\mytvscheduler\MyTVScheduler.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/mytvscheduler.iml" filepath="$PROJECT_DIR$/.idea/mytvscheduler.iml" />
+      <module fileurl="file://D:\Programming\Android\MyTVScheduler\.idea\mytvscheduler.iml" filepath="D:\Programming\Android\MyTVScheduler\.idea\mytvscheduler.iml" />
     </modules>
   </component>
 </project>
