@@ -1,9 +1,9 @@
-package io.github.krisbox.mytvscheduler
+package io.github.krisbox.mytvscheduler.searching
 
 import android.content.Context
+import io.github.krisbox.mytvscheduler.dataclasses.Episode
+import io.github.krisbox.mytvscheduler.dataclasses.Program
 import java.util.ArrayList
-import io.github.krisbox.mytvscheduler.jsonparsing.FormatJSON
-import io.github.krisbox.mytvscheduler.jsonparsing.GetData
 
 /**
  * Description: Gets the searchData, and returns it as an ArrayList
@@ -35,7 +35,7 @@ class Search(private val context: Context, private val query: String, private va
     val programData: Program
         get() {
             val data = GetData(query)
-            data.setID(id)
+            data.setIDForProgram(id)
             data.makeProgramConnection()
             var info = data.getSearchData()
             if (info != null){
@@ -51,7 +51,20 @@ class Search(private val context: Context, private val query: String, private va
     val episodeData: ArrayList<ArrayList<Episode>>
         get () {
             val data = GetData(query)
+            val episodeData = ArrayList<ArrayList<Episode>>()
+            for (i in 1..query.toInt()){
+                data.setIDForEpisode(id, i.toString())
+                data.makeEpisodesConnection()
+                var info = data.getSearchData()
+                if (info != null){
+                    val format = FormatJSON(info, context)
+                    val seasonEp = format.seasonFormat()
+                    episodeData.add(seasonEp)
 
+                }
+            }
+
+            return episodeData
         }
 
 }

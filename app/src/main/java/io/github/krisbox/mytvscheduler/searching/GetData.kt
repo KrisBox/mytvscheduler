@@ -1,4 +1,4 @@
-package io.github.krisbox.mytvscheduler.jsonparsing
+package io.github.krisbox.mytvscheduler.searching
 
 import org.json.JSONObject
 import java.io.*
@@ -19,6 +19,7 @@ class GetData(private val programmeName: String) {
 
     private var searchURL = "https://api.themoviedb.org/3/search/tv"
     private var idURL = "https://api.themoviedb.org/3/tv/"
+    private var seasonsURL = "https://api.themoviedb.org/3/tv/"
     private var api = "?api_key=c8f357a17874949380defddba226a59b"
     private var dataRetrieve: JSONObject? = null
     private var connection: URLConnection? = null
@@ -42,6 +43,14 @@ class GetData(private val programmeName: String) {
     fun makeProgramConnection(){
         try {
             connection = URL(idURL).openConnection()
+        } catch (e: Exception){
+            println("Couldn't make connection")
+        }
+    }
+
+    fun makeEpisodesConnection(){
+        try {
+            connection = URL(seasonsURL).openConnection()
         } catch (e: Exception){
             println("Couldn't make connection")
         }
@@ -74,11 +83,21 @@ class GetData(private val programmeName: String) {
 
     }
 
-    fun setID(id: String){
+    fun setIDForProgram(id: String){
         programID = id
 
         idURL += programID
         idURL += api
+    }
+
+    fun setIDForEpisode(id: String, seasonNo: String){
+        programID = id
+        seasonsURL = "https://api.themoviedb.org/3/tv/"
+
+        seasonsURL += programID
+        seasonsURL += "/season/"
+        seasonsURL += seasonNo
+        seasonsURL += api
     }
 
 

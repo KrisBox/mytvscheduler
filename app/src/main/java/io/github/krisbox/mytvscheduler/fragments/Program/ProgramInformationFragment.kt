@@ -12,10 +12,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import io.github.krisbox.mytvscheduler.Episode
-import io.github.krisbox.mytvscheduler.Program
+import io.github.krisbox.mytvscheduler.dataclasses.Episode
+import io.github.krisbox.mytvscheduler.dataclasses.Program
 import io.github.krisbox.mytvscheduler.R
-import io.github.krisbox.mytvscheduler.Search
+import io.github.krisbox.mytvscheduler.searching.Search
 import io.github.krisbox.mytvscheduler.adapter.EpisodePagerAdapter
 
 /**
@@ -36,7 +36,7 @@ class ProgramInformationFragment(internal var id: String, internal var context: 
         super.onViewCreated(view, savedInstanceState)
 
         val program = Search(context, "", id).programData
-        var episodeList = Search(context, program.programNoOfSeasons.toString(), id).episodeData
+        val episodeList = Search(context, program.programNoOfSeasons.toString(), id).episodeData
 
         val title = view?.findViewById(R.id.title) as TextView
         title.text = program.programName
@@ -53,7 +53,6 @@ class ProgramInformationFragment(internal var id: String, internal var context: 
         val overview = view.findViewById(R.id.overview) as TextView
         overview.text = program.programOverview
 
-
         val viewPager = view.findViewById(R.id.pager) as ViewPager
         setupViewPager(viewPager, program, episodeList)
 
@@ -68,8 +67,10 @@ class ProgramInformationFragment(internal var id: String, internal var context: 
     fun setupViewPager (viewPager: ViewPager, program: Program, episodeList: ArrayList<ArrayList<Episode>>){
         val con = activity as FragmentActivity
         val adapter = EpisodePagerAdapter(con.supportFragmentManager)
-        for ( i in 0..program.programNoOfSeasons!!.toInt()){
-            adapter.addFrag(EpisodeFragment(episodeList[i]), i.toString())
+
+        for ( i in 0..(program.programNoOfSeasons!!.toInt()) - 1){
+            println(i)
+            adapter.addFrag(EpisodeFragment(episodeList[i], context), "SEASON " + i.toString())
         }
 
         viewPager.adapter = adapter

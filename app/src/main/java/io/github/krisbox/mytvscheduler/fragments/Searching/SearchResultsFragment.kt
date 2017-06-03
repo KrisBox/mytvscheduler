@@ -11,7 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import io.github.krisbox.mytvscheduler.R
-import io.github.krisbox.mytvscheduler.Search
+import io.github.krisbox.mytvscheduler.searching.Search
 import io.github.krisbox.mytvscheduler.adapter.SearchRVAdapter
 import io.github.krisbox.mytvscheduler.fragments.Program.ProgramInformationFragment
 import io.github.krisbox.mytvscheduler.support.RecyclerItemClickListener

@@ -1,9 +1,10 @@
-package io.github.krisbox.mytvscheduler
+package io.github.krisbox.mytvscheduler.dataclasses
 
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import io.github.krisbox.mytvscheduler.jsonparsing.GetImage
+import io.github.krisbox.mytvscheduler.R
+import io.github.krisbox.mytvscheduler.searching.GetImage
 
 /**
  * Description: Stores the info for a specific program when searching. Also gets the poster from the webs.

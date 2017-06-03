@@ -1,4 +1,4 @@
-package io.github.krisbox.mytvscheduler.jsonparsing
+package io.github.krisbox.mytvscheduler.searching
 
 
 import android.graphics.Bitmap

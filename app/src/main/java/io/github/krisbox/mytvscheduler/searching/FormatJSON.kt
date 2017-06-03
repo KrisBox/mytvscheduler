@@ -1,8 +1,9 @@
-package io.github.krisbox.mytvscheduler.jsonparsing
+package io.github.krisbox.mytvscheduler.searching
 
 
 import android.content.Context
-import io.github.krisbox.mytvscheduler.Program
+import io.github.krisbox.mytvscheduler.dataclasses.Episode
+import io.github.krisbox.mytvscheduler.dataclasses.Program
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -60,6 +61,32 @@ class FormatJSON(private val array: JSONObject?, private val context: Context) {
         }
 
         return program
+    }
+
+    fun seasonFormat(): ArrayList<Episode> {
+        val episodes = ArrayList<Episode>()
+
+        val innerArray: JSONArray = array!!.getJSONArray("episodes")
+        try {
+
+            for ( i in 0..(innerArray.length() - 1)) {
+                val json = innerArray.getJSONObject(i)
+
+                val string: Array<String> = arrayOf(json.getString("season_number"),
+                        json.getString("episode_number"),
+                        json.getString("name"),
+                        json.getString("vote_average"),
+                        json.getString("air_date"))
+                val episode = Episode(string)
+                episodes.add(episode)
+            }
+
+        } catch (e: JSONException){
+            e.printStackTrace()
+        }
+
+
+        return episodes
     }
 
 }

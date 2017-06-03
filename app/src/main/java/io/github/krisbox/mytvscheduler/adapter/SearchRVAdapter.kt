@@ -1,6 +1,5 @@
 package io.github.krisbox.mytvscheduler.adapter
 
-import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.support.v7.widget.CardView
@@ -10,10 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import io.github.krisbox.mytvscheduler.Program
+import io.github.krisbox.mytvscheduler.dataclasses.Program
 import io.github.krisbox.mytvscheduler.R
-import io.github.krisbox.mytvscheduler.fragments.Program.ProgramInformationFragment
-import io.github.krisbox.mytvscheduler.fragments.Searching.SearchResultsFragment
 import java.util.ArrayList
 
 /**
