@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 val fragmentManager = fragmentManager
                 val fragmentTransaction = fragmentManager.beginTransaction()
 
-                val searchResults = SearchResultsFragment(query)
+                val searchResults = SearchResultsFragment(query, this@MainActivity)
                 fragmentTransaction.replace(R.id.search_fragment_placeholder, searchResults, "SEARCH_FRAGMENT")
                 fragmentTransaction.commit()
             }

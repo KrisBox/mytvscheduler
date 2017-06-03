@@ -1,5 +1,7 @@
 package io.github.krisbox.mytvscheduler
 
+import android.app.Activity
+import android.content.Context
 import android.graphics.Bitmap
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
@@ -8,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import io.github.krisbox.mytvscheduler.fragments.Program.ProgramInformationFragment
+import io.github.krisbox.mytvscheduler.fragments.Searching.SearchResultsFragment
 import java.util.ArrayList
 
 /**
@@ -18,13 +22,14 @@ import java.util.ArrayList
  * @version 1.0
  * Copyright (c) Kris Box 2017
  */
-class SearchRVAdapter internal constructor(internal var programmes: ArrayList<Program>) : RecyclerView.Adapter<SearchRVAdapter.TVViewHolder>() {
-    class TVViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class SearchRVAdapter internal constructor(internal var programmes: ArrayList<Program>, internal var context: Context) : RecyclerView.Adapter<SearchRVAdapter.TVViewHolder>() {
+    inner class TVViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         internal var cv: CardView = itemView.findViewById(R.id.cv) as CardView
         internal var programName: TextView = itemView.findViewById(R.id.person_name) as TextView
         internal var programRelease: TextView = itemView.findViewById(R.id.person_age) as TextView
         internal var programRating: TextView = itemView.findViewById(R.id.imdbRating) as TextView
         internal var programPoster: ImageView = itemView.findViewById(R.id.imageView) as ImageView
+        internal var programID: TextView = itemView.findViewById(R.id.program_id) as TextView
 
     }
 
@@ -43,9 +48,12 @@ class SearchRVAdapter internal constructor(internal var programmes: ArrayList<Pr
         tvViewHolder.programRelease.text = programmes[i].programRelease
         tvViewHolder.programPoster.setImageBitmap(Bitmap.createScaledBitmap(programmes[i].programPoster, 160, 220, false)) //Will only work on my phone..
         tvViewHolder.programRating.text = programmes[i].programRating
+        tvViewHolder.programID.text = programmes[i].id
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView?) {
         super.onAttachedToRecyclerView(recyclerView)
     }
+
+
 }

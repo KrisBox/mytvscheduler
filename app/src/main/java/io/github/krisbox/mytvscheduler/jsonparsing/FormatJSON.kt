@@ -17,12 +17,11 @@ import org.json.JSONObject
  */
 class FormatJSON(private val array: JSONObject?, private val context: Context) {
 
-    fun basicFormat(): ArrayList<Program> {
+    fun searchFormat(): ArrayList<Program> {
 
         val innerArray: JSONArray = array!!.getJSONArray("results")
         val programmes = ArrayList<Program>()
         try {
-            // Only returns first option
 
             for ( i in 0..(innerArray.length() - 1)) {
                 val json = innerArray.getJSONObject(i)
@@ -30,8 +29,10 @@ class FormatJSON(private val array: JSONObject?, private val context: Context) {
                 val string: Array<String> = arrayOf(json.getString("name"),
                         json.getString("first_air_date"),
                         json.getString("poster_path"),
-                        json.getString("vote_average"))
-                val program = Program(string, context)
+                        json.getString("vote_average"),
+                        json.getString("id"))
+                val program = Program(context)
+                program.giveSearchData(string)
                 programmes.add(program)
             }
 
@@ -40,6 +41,25 @@ class FormatJSON(private val array: JSONObject?, private val context: Context) {
         }
 
         return programmes
+    }
+
+    fun programFormat(): Program {
+        val program = Program(context)
+        try {
+            val string: Array<String> = arrayOf(array!!.getString("name"),
+                    array.getString("first_air_date"),
+                    array.getString("poster_path"),
+                    array.getString("vote_average"),
+                    array.getString("id"),
+                    array.getString("overview"),
+                    array.getString("backdrop_path"),
+                    array.getString("number_of_seasons"))
+            program.giveProgramData(string)
+        } catch (e: JSONException){
+            e.printStackTrace()
+        }
+
+        return program
     }
 
 }
