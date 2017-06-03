@@ -58,9 +58,6 @@ class ProgramInformationFragment(internal var id: String, internal var context: 
 
         val tab = view.findViewById(R.id.tabs) as TabLayout
         tab.setupWithViewPager(viewPager)
-//        for(i in 0..(program.programNoOfSeasons)!!.toInt()){
-//            tab.addTab(tab.newTab().setText(i.toString()))
-//        }
 
     }
 
@@ -70,7 +67,7 @@ class ProgramInformationFragment(internal var id: String, internal var context: 
 
         for ( i in 0..(program.programNoOfSeasons!!.toInt()) - 1){
             println(i)
-            adapter.addFrag(EpisodeFragment(episodeList[i], context), "SEASON " + i.toString())
+            adapter.addFrag(EpisodeFragment(episodeList[i], context), i.toString())
         }
 
         viewPager.adapter = adapter
