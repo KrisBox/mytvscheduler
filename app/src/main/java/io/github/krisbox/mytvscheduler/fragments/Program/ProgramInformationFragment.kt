@@ -1,6 +1,7 @@
 package io.github.krisbox.mytvscheduler.fragments.Program
 
-import android.app.Fragment
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -62,12 +63,11 @@ class ProgramInformationFragment(internal var id: String, internal var context: 
     }
 
     fun setupViewPager (viewPager: ViewPager, program: Program, episodeList: ArrayList<ArrayList<Episode>>){
-        val con = activity as FragmentActivity
-        val adapter = EpisodePagerAdapter(con.supportFragmentManager)
+        val con = context as FragmentActivity
+        val adapter = EpisodePagerAdapter(childFragmentManager, episodeList, context)
 
         for ( i in 0..(program.programNoOfSeasons!!.toInt()) - 1){
-            println(i)
-            adapter.addFrag(EpisodeFragment(episodeList[i], context), (i+1).toString())
+            adapter.addFragTitle((i+1).toString())
         }
 
         viewPager.adapter = adapter

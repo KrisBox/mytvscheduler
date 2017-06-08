@@ -1,9 +1,9 @@
 package io.github.krisbox.mytvscheduler.fragments.Searching
 
-import android.app.Activity
-import android.app.Fragment
+import android.support.v4.app.Fragment
 import android.content.Context
 import android.os.Bundle
+import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -46,8 +46,8 @@ class SearchResultsFragment(private var query: String, internal var context: Con
 
         rv.addOnItemTouchListener(RecyclerItemClickListener(context, rv, object : RecyclerItemClickListener.OnItemClickListener {
             override fun onItemClick(view: View, position: Int) {
-                val activity = context as Activity
-                val fragmentManager = activity.fragmentManager
+                val activity = context as FragmentActivity
+                val fragmentManager = activity.supportFragmentManager
                 val fragmentTransaction = fragmentManager.beginTransaction()
 
                 val v = rv.layoutManager.findViewByPosition(position)
@@ -62,7 +62,6 @@ class SearchResultsFragment(private var query: String, internal var context: Con
             }
 
             override fun onItemLongClick(view: View, position: Int) {
-                //handle longClick if any
             }
         }))
 

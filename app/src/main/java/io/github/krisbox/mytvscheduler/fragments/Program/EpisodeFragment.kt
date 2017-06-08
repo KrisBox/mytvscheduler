@@ -23,7 +23,6 @@ import io.github.krisbox.mytvscheduler.dataclasses.Episode
  */
 
 class EpisodeFragment(private var episodes: ArrayList<Episode>, internal var context: Context) : Fragment(){
-    // need to have recycler view in here for each episode
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.episode_list, container, false)
@@ -32,10 +31,11 @@ class EpisodeFragment(private var episodes: ArrayList<Episode>, internal var con
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val rv = activity.findViewById(R.id.episode_rv) as RecyclerView
+        val rv = view?.findViewById(R.id.episode_rv) as RecyclerView
         val llm = LinearLayoutManager(activity)
-        rv.layoutManager = llm
 
+        rv.layoutManager = llm
+        println(episodes)
         val adapter = EpisodeRVAdapter(episodes, context)
         rv.adapter = adapter
 

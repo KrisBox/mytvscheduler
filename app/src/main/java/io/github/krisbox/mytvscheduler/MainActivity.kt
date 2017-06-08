@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             fun callSearch(query:String) {
 
-                val fragmentManager = fragmentManager
+                val fragmentManager = supportFragmentManager
                 val fragmentTransaction = fragmentManager.beginTransaction()
 
                 val searchResults = SearchResultsFragment(query, this@MainActivity)
