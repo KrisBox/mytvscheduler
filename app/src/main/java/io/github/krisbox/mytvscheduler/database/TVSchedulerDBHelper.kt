@@ -23,7 +23,7 @@ class TVSchedulerDBHelper(context: Context) : SQLiteOpenHelper(context, TVSchedu
         val tv = TVSchedulerContract()
         db.execSQL(tv.CREATE_PROGRAMME_TABLE)
         db.execSQL(tv.CREATE_PROGRAMME_EXT_TABLE)
-        //db.execSQL(tv.CREATE_WATCHLIST_TABLE)
+        db.execSQL(tv.CREATE_WATCHLIST_TABLE)
     }
 
     /**

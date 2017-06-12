@@ -2,6 +2,7 @@ package io.github.krisbox.mytvscheduler.searching
 
 
 import android.content.Context
+import io.github.krisbox.mytvscheduler.database.TVSchedulerDBInsert
 import io.github.krisbox.mytvscheduler.dataclasses.Episode
 import io.github.krisbox.mytvscheduler.dataclasses.Program
 import org.json.JSONArray
@@ -88,8 +89,14 @@ class FormatJSON(private val array: JSONObject?, private val context: Context) {
                         json.getString("episode_number"),
                         json.getString("name"),
                         json.getString("vote_average"),
-                        json.getString("air_date"))
+                        json.getString("air_date"),
+                        json.getString("id"))
                 val episode = Episode(string)
+
+                val insertCache = TVSchedulerDBInsert(context)
+                insertCache.insertEpisodeInfo(episode)
+                insertCache.db.close()
+
                 episodes.add(episode)
             }
 

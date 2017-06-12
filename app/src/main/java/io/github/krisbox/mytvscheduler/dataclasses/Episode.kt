@@ -11,6 +11,7 @@ package io.github.krisbox.mytvscheduler.dataclasses
  */
 
 class Episode(data: Array<String>) {
+    var programID = data[5]
     var seasonNo = data[0]
     var episodeNo = data[1]
     var episodeName = data[2]

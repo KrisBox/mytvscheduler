@@ -1,7 +1,7 @@
 package io.github.krisbox.mytvscheduler.searching
 
 import android.content.Context
-import io.github.krisbox.mytvscheduler.database.TVSchedulerDBInsertProgram
+import io.github.krisbox.mytvscheduler.database.TVSchedulerDBInsert
 import io.github.krisbox.mytvscheduler.dataclasses.Episode
 import io.github.krisbox.mytvscheduler.dataclasses.Program
 import java.util.ArrayList
@@ -29,8 +29,9 @@ class Search(private val context: Context, private val query: String, private va
             if (info != null) {
                 val format = FormatJSON(info, context)
                 val programmes = format.searchFormat()
-                val insertCache = TVSchedulerDBInsertProgram(programmes, context)
-                insertCache.insertProgrammes()
+                // TODO change to just selected episode below
+                val insertCache = TVSchedulerDBInsert(context)
+                insertCache.insertProgrammes(programmes)
                 insertCache.db.close()
                 return programmes
             }
@@ -52,7 +53,9 @@ class Search(private val context: Context, private val query: String, private va
             if (info != null){
                 val format = FormatJSON(info, context)
                 val program = format.programFormat()
-
+                val insertCache = TVSchedulerDBInsert(context)
+                insertCache.insertProgramInfo(program)
+                insertCache.db.close()
                 return program
             }
 

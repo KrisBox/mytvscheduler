@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import io.github.krisbox.mytvscheduler.R
 import io.github.krisbox.mytvscheduler.searching.GetImage
+import java.io.ByteArrayOutputStream
 
 /**
  * Description: Stores the info for a specific program when searching. Also gets the poster from the webs.
@@ -72,5 +73,18 @@ class Program(internal var context: Context) {
 
         programOverview = info[5]
         programNoOfSeasons = info[7]
+    }
+
+
+    fun toByteArrayCover(): ByteArray {
+        val stream = ByteArrayOutputStream()
+        programPoster!!.compress(Bitmap.CompressFormat.PNG, 100, stream)
+        return stream.toByteArray()
+    }
+
+    fun toByteArrayPoster(): ByteArray {
+        val stream = ByteArrayOutputStream()
+        programBackdrop!!.compress(Bitmap.CompressFormat.PNG, 100, stream)
+        return stream.toByteArray()
     }
 }

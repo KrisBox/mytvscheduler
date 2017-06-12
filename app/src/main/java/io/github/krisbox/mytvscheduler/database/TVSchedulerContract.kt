@@ -30,17 +30,19 @@ class TVSchedulerContract {
             //TABLE: Programme Extended
             val TABLE_NAME_PROGRAMME_EXTENDED = "programme_extended"
             val COLUMN_NAME_EXT_PROGRAMID = "programID"
-            val COLUMN_NAME_EXT_SEASON = "season_number"
-            val COLUMN_NAME_EXT_EPISODE = "episode_number"
-            val COLUMN_NAME_EXT_RATING = "episode_rating"
             val COLUMN_NAME_EXT_OVERVIEW = "overview"
-            val COLUMN_NAME_EXT_AIR = "air_date"
-            val COLUMN_NAME_POSTER_IMAGE = "poster_image"
+            val COLUMN_NAME_EXT_POSTER_IMAGE = "poster_image"
 
             //TABLE: Watchlist
-            //val TABLE_NAME_WATCHLIST = "programme_extended"
-            //val COLUMN_NAME_WL_IMDBID = "imdbID"
-            //val COLUMN_NAME_WL_RANK = "rank"
+            val TABLE_NAME_WATCHLIST = "watch_list"
+            val COLUMN_NAME_WL_PROGRAMID = "programID"
+            val COLUMN_NAME_WL_SEASON = "season_number"
+            val COLUMN_NAME_WL_EPISODE = "episode_number"
+            val COLUMN_NAME_WL_RATING = "episode_rating"
+            val COLUMN_NAME_WL_NAME = "episode_name"
+            val COLUMN_NAME_WL_AIR = "air_date"
+            val COLUMN_NAME_WL_WATCHED = "watched"
+            val COLUMN_NAME_WL_RANK = "rank"
 
     }
 
@@ -54,14 +56,15 @@ class TVSchedulerContract {
     //Statement for Create Table Program Extended
     val CREATE_PROGRAMME_EXT_TABLE = ("CREATE TABLE "
     + DBEntry().TABLE_NAME_PROGRAMME_EXTENDED + "(" + DBEntry().ID + " INTEGER PRIMARY KEY,"
-    + DBEntry().COLUMN_NAME_EXT_PROGRAMID + " TEXT, " + DBEntry().COLUMN_NAME_POSTER_IMAGE + " BLOB, "
-    + DBEntry().COLUMN_NAME_EXT_SEASON + " TEXT, " + DBEntry().COLUMN_NAME_EXT_EPISODE + " TEXT, "
-    + DBEntry().COLUMN_NAME_EXT_RATING + " TEXT, " + DBEntry().COLUMN_NAME_EXT_AIR + " TEXT, "
+    + DBEntry().COLUMN_NAME_EXT_PROGRAMID + " TEXT, " + DBEntry().COLUMN_NAME_EXT_POSTER_IMAGE + " BLOB, "
     + DBEntry().COLUMN_NAME_EXT_OVERVIEW + " TEXT" +
     ")")
 
-    //val CREATE_WATCHLIST_TABLE = ("CREATE TABLE "
-    //+ DBEntry().TABLE_NAME_WATCHLIST + "(" + DBEntry().ID + " INTEGER PRIMARY KEY,"
-    //+ DBEntry().COLUMN_NAME_WL_IMDBID + " TEXT, " + DBEntry().COLUMN_NAME_WL_RANK + " TEXT)")
+    val CREATE_WATCHLIST_TABLE = ("CREATE TABLE "
+    + DBEntry().TABLE_NAME_WATCHLIST + "(" + DBEntry().ID + " INTEGER PRIMARY KEY,"
+    + DBEntry().COLUMN_NAME_WL_PROGRAMID + " TEXT, " + DBEntry().COLUMN_NAME_WL_SEASON + " TEXT, "
+    + DBEntry().COLUMN_NAME_WL_EPISODE + " TEXT, " + DBEntry().COLUMN_NAME_WL_RATING + " TEXT, "
+    + DBEntry().COLUMN_NAME_WL_NAME + " TEXT, " + DBEntry().COLUMN_NAME_WL_AIR + " TEXT, "
+    + DBEntry().COLUMN_NAME_WL_WATCHED + " TEXT, " + DBEntry().COLUMN_NAME_WL_RANK + " TEXT)")
 }
 

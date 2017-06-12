@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
 import io.github.krisbox.mytvscheduler.R
+import io.github.krisbox.mytvscheduler.database.TVSchedulerDBHelper
+import io.github.krisbox.mytvscheduler.database.TVSchedulerDBUpdate
 import io.github.krisbox.mytvscheduler.dataclasses.Episode
 import java.util.ArrayList
 
@@ -32,18 +34,6 @@ class EpisodeRVAdapter internal constructor(internal var episodes: ArrayList<Epi
         internal var episodeRating: TextView = itemView.findViewById(R.id.imdbRating) as TextView
         internal var check: CheckBox = itemView.findViewById(R.id.episodeCheck) as CheckBox
 
-        //Check box operations TODO
-        init {
-            check.setOnCheckedChangeListener {buttonView, isChecked ->
-                if (isChecked){
-                    // Do operation
-                } else {
-                    // Do operation
-                }
-            }
-        }
-
-
     }
 
     /**
@@ -66,9 +56,39 @@ class EpisodeRVAdapter internal constructor(internal var episodes: ArrayList<Epi
      * Apply all the data to the elements of the cardview for each episode
      */
     override fun onBindViewHolder(tvViewHolder: EpisodeRVAdapter.EPViewHolder, i: Int) {
-        tvViewHolder.episodeName.text = episodes[i].episodeName
+        tvViewHolder.episodeName.text = (episodes[i].episodeNo + ". " + episodes[i].episodeName)
         tvViewHolder.episodeRelease.text = episodes[i].episodeRelease
         tvViewHolder.episodeRating.text = episodes[i].episodeRating
+
+        tvViewHolder.check.setOnCheckedChangeListener {buttonView, _ ->
+            if (buttonView.isChecked){
+                val update = TVSchedulerDBUpdate(context)
+                update.updateChecked("Yes", episodes[i].programID, episodes[i].seasonNo, episodes[i].episodeNo)
+                update.db.close()
+            } else {
+                val update = TVSchedulerDBUpdate(context)
+                update.updateChecked("No", episodes[i].programID, episodes[i].seasonNo, episodes[i].episodeNo)
+                update.db.close()
+            }
+        }
+
+
+
+        // Load check box as ticked/not ticked if db says so
+        val dbHelper = TVSchedulerDBHelper(context)
+        val db = dbHelper.writableDatabase
+        val query = "SELECT * FROM watch_list WHERE (programID = '" + episodes[i].programID + "' AND season_number = '"+ episodes[i].seasonNo +"' AND episode_number = '"+ episodes[i].episodeNo + "');"
+        val cursor = db.rawQuery(query, null)
+        if (cursor.moveToFirst()){
+            if (cursor.getString(7) == "Yes"){
+                tvViewHolder.check.setChecked(true)
+            } else {
+                tvViewHolder.check.setChecked(false)
+            }
+        }
+        cursor.close()
+        db.close()
+
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView?) {
