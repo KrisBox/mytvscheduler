@@ -78,6 +78,7 @@ class ProgramInformationFragment(internal var id: String, internal var context: 
         }
 
         viewPager.adapter = adapter
+
         adapter.notifyDataSetChanged()
     }
 

@@ -1,0 +1,31 @@
+-- The Story of MyTVScheduler
+
+Background:
+    I decided to make this app as my entry to Android. I got fed up of constantly forgetting which episode of which season of which program I am watching.
+    So here it is..
+
+Early Stages (January):
+    Development started early in 2017. I started on the barebones of the app, where the searching happened in the background and the first CardView was created. That's it.
+    Then Uni exams started, then the second semester... 
+
+Rebirth (May):
+    Wednesday 17th May came around as did Google I/O. During their Keynote, they announced official support for a language that I'd nver heard of before called Kotlin.
+    To take breaks from revision, I decided to convert all current Java code into Kotlin. Let me just say, I love Kotlin so far. It's SO much more intuitive, clean and forgiving than Java.
+
+Ramping Up (June):
+    Exams are over; I am free until September!!
+
+    I really dived into Kotlin, loving every minute of it.
+
+    Then when running the app, I was getting a weird error message. The API stopped working (They introduced a paid model -.-). So then it was research time.
+    I found TheMovieDB which has a great free model, but I disgress (see for youself in the apks)
+
+    Development was flying, features being added constantly. Although not yet pretty, the app was starting to work as imagined.
+
+    Then we hit the first major milestone.. 
+
+Timeline:
+
+    - January 2017: The journey begins.
+    - 17th May 2017: The app is reborn in Kotlin.
+    - 12th June 2017: Alpha Dev v0.1      

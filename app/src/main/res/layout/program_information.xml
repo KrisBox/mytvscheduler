@@ -1,115 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true">
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
 
-        <android.support.v7.widget.CardView
-            android:layout_width="400dp"
-            android:layout_height="wrap_content"
-            android:padding="3dp"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/cv"
-            app:cardPreventCornerOverlap="false"
-            app:cardElevation="10dp"
-            app:cardCornerRadius="7dp"
-            >
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="16dp">
-
-                <ImageView
-                    android:id="@+id/backdrop"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_alignParentTop="true"
-                    app:srcCompat="@mipmap/ic_launcher" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/backdrop"
-                    android:paddingTop="10dp"
-                    android:id ="@+id/textContent">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/title"
-                        android:layout_alignParentTop="true"
-                        android:textSize="30sp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/date"
-                        android:layout_below="@+id/title"
-                        android:text="23 Years Old" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id = "@+id/imdbTitle"
-                        android:text = "IMDB Rating: "
-                        android:layout_below="@+id/date"
-                        />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id = "@+id/imdbRating"
-                        android:paddingLeft="2dp"
-                        android:text = "5.0"
-                        android:layout_toRightOf="@+id/imdbTitle"
-                        android:layout_toEndOf="@+id/imdbTitle"
-                        android:layout_below="@+id/date"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id = "@+id/overview"
-                        android:layout_below="@+id/imdbTitle"
-                        />
-
-                </RelativeLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/program_id"
-                    android:text=""
-                    android:textColor="#ffffff"/>
-            </RelativeLayout>
-        </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:padding="3dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/cv"
+        app:cardPreventCornerOverlap="false"
+        app:cardElevation="10dp"
+        app:cardCornerRadius="7dp"
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/cv">
+            android:padding="16dp">
 
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tabs"
+            <ImageView
+                android:id="@+id/backdrop"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_alignParentTop="true"
+                app:srcCompat="@mipmap/ic_launcher" />
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:tabMode="scrollable"
-                android:layout_gravity="center_horizontal" />
+                android:layout_below="@id/backdrop"
+                android:paddingTop="10dp"
+                android:id ="@+id/textContent">
 
-            <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/pager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context=".MainActivity"
-                android:layout_below="@id/tabs"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/title"
+                    android:layout_alignParentTop="true"
+                    android:textSize="30sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/date"
+                    android:layout_below="@+id/title"
+                    android:text="23 Years Old" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id = "@+id/imdbTitle"
+                    android:text = "IMDB Rating: "
+                    android:layout_below="@+id/date"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id = "@+id/imdbRating"
+                    android:paddingLeft="2dp"
+                    android:text = "5.0"
+                    android:layout_toRightOf="@+id/imdbTitle"
+                    android:layout_toEndOf="@+id/imdbTitle"
+                    android:layout_below="@+id/date"
+                    />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id = "@+id/overview"
+                    android:layout_below="@+id/imdbTitle"
+                    />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/program_id"
+                android:text=""
+                android:textColor="#ffffff"/>
         </RelativeLayout>
+    </android.support.v7.widget.CardView>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/cv">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabMode="scrollable"
+            android:layout_gravity="center_horizontal" />
+        <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".MainActivity"
+            android:layout_below="@id/tabs"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     </RelativeLayout>
-</ScrollView>
+</RelativeLayout>

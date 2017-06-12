@@ -8,10 +8,16 @@
     tools:context="io.github.krisbox.mytvscheduler.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <FrameLayout
-        android:id="@+id/search_fragment_placeholder"
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </FrameLayout>
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <FrameLayout
+            android:id="@+id/search_fragment_placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </FrameLayout>
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>
