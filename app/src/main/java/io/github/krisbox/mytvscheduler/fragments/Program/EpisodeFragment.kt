@@ -13,7 +13,7 @@ import io.github.krisbox.mytvscheduler.adapter.EpisodeRVAdapter
 import io.github.krisbox.mytvscheduler.dataclasses.Episode
 
 /**
- * Description: TO-DO
+ * Description: Propagates the Episode cardview for a season of the selected episode
  *
  * @author Kris Box
  * Time: 19:04
@@ -24,10 +24,16 @@ import io.github.krisbox.mytvscheduler.dataclasses.Episode
 
 class EpisodeFragment(private var episodes: ArrayList<Episode>, internal var context: Context) : Fragment(){
 
+    /**
+     * Inflate the xml when creating the view
+     */
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.episode_list, container, false)
     }
 
+    /**
+     * Give the recycler view information when the view is created
+     */
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -35,7 +41,7 @@ class EpisodeFragment(private var episodes: ArrayList<Episode>, internal var con
         val llm = LinearLayoutManager(activity)
 
         rv.layoutManager = llm
-        println(episodes)
+
         val adapter = EpisodeRVAdapter(episodes, context)
         rv.adapter = adapter
 

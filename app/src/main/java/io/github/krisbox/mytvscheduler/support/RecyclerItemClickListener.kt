@@ -3,17 +3,16 @@ package io.github.krisbox.mytvscheduler.support
 import android.content.Context
 import android.view.MotionEvent
 import android.support.v7.widget.RecyclerView
-import android.text.method.Touch.onTouchEvent
 import android.view.GestureDetector
 import android.view.View
 
 
 /**
- * Description: TODO
+ * Description: ClickListener for the Recycler View in the Search Fragment
  * @author Kris
  * Time: 15:33
  * Date: 02/06/2017
- * Last Updated: 02/06/2017
+ * @version 1.0
  * Copyright (c) Kristofer Box 2017
  */
 

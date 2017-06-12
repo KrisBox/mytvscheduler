@@ -16,22 +16,28 @@ import io.github.krisbox.mytvscheduler.searching.GetImage
  */
 class Program(internal var context: Context) {
 
+    // Program information declarations
     var programName: String? = null
     var programRelease: String? = null
     var programPoster: Bitmap? = null
     var programRating: String? = null
     var id: String? = null
 
+    // Program Extended information declarations
     var programOverview: String? = null
     var programBackdrop: Bitmap? = null
     var programNoOfSeasons: String? = null
 
+    /**
+     * Used in the SearchView when showing the RecyclerView
+     */
     fun giveSearchData(info: Array<String>){
         programName = info[0]
         programRelease = info[1]
         programRating = info[3]
         id = info[4]
 
+        // Get image if available, show default if not
         if (info[2] != "null"){
             val image = GetImage("https://image.tmdb.org/t/p/w500/" + info[2])
             programPoster = image.image
@@ -40,12 +46,16 @@ class Program(internal var context: Context) {
         }
     }
 
+    /**
+     * Used in the Program View, using the extended information
+     */
     fun giveProgramData(info: Array<String>){
         programName = info[0]
         programRelease = info[1]
         programRating = info[3]
         id = info[4]
 
+        // Get images if available, use defaults if not
         if (info[2] != "null"){
             val image = GetImage("https://image.tmdb.org/t/p/w500/" + info[2])
             programPoster = image.image

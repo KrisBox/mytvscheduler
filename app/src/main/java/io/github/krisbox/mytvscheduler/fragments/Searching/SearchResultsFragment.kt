@@ -19,7 +19,7 @@ import io.github.krisbox.mytvscheduler.support.RecyclerItemClickListener
 
 
 /**
- * Description: TO-DO
+ * Description: Shows the search results when the search is complete
  *
  * @author Kris Box
  * Time: 21:47
@@ -29,10 +29,18 @@ import io.github.krisbox.mytvscheduler.support.RecyclerItemClickListener
  */
 
 class SearchResultsFragment(private var query: String, internal var context: Context) : Fragment(){
+
+    /**
+     * Inflate the xml when creating the view
+     */
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.search_results, container, false)
     }
 
+    /**
+     * Create the recycler view for the results.
+     * Add a listener for each cardview and create the episode fragment when clicked
+     */
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -45,6 +53,10 @@ class SearchResultsFragment(private var query: String, internal var context: Con
         rv.adapter = adapter
 
         rv.addOnItemTouchListener(RecyclerItemClickListener(context, rv, object : RecyclerItemClickListener.OnItemClickListener {
+
+            /**
+             * Load the program view when a cardview is clicked
+             */
             override fun onItemClick(view: View, position: Int) {
                 val activity = context as FragmentActivity
                 val fragmentManager = activity.supportFragmentManager
@@ -61,6 +73,9 @@ class SearchResultsFragment(private var query: String, internal var context: Con
                 }
             }
 
+            /**
+             * May have use in future.
+             */
             override fun onItemLongClick(view: View, position: Int) {
             }
         }))

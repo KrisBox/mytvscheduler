@@ -1,25 +1,32 @@
 package io.github.krisbox.mytvscheduler
 
 import android.os.Bundle
-import android.os.Handler
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.widget.SearchView
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
-import android.view.Window
-import android.widget.Toast
 import io.github.krisbox.mytvscheduler.fragments.Searching.SearchResultsFragment
+
+/**
+ * Description: Main Activity for the App
+ * @author Kris Box
+ * Time: 19:08
+ * Date: 01/01/2017
+ * @version 1.0
+ * Copyright (c) Kris Box 2017
+*/
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    var doubleBack: Boolean = false
-
+    /**
+     * When the Activity is created create the Toolbar,
+     * Drawer
+     * NavigationView and SearchView
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -41,7 +48,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     /**
-     * Search View
+     * Search View, listens for TextSubmit and searches for data when happens
      */
     fun search(){
         val searchView = findViewById(R.id.searchView) as SearchView
@@ -68,7 +75,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     /**
-     * Navigation Drawer Stuff
+     * Navigation Drawer Stuff TODO
      */
     override fun onBackPressed() {
 
@@ -89,7 +96,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
+        // Handle navigation view item clicks here TODO
         when (item.itemId) {
             R.id.nav_home -> {
             }

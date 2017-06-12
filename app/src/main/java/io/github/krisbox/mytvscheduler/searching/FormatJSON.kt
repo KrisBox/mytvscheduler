@@ -9,7 +9,7 @@ import org.json.JSONException
 import org.json.JSONObject
 
 /**
- * Description: TO-DO
+ * Description: Formats the JSONObject into the data required
  * @author Kris Box
  * Time: 19:08
  * Date: 28/01/2017
@@ -18,6 +18,10 @@ import org.json.JSONObject
  */
 class FormatJSON(private val array: JSONObject?, private val context: Context) {
 
+    /**
+     * Formats the search data from the searchview
+     * Adds to an array of 'Programs' and returns
+     */
     fun searchFormat(): ArrayList<Program> {
 
         val innerArray: JSONArray = array!!.getJSONArray("results")
@@ -44,6 +48,10 @@ class FormatJSON(private val array: JSONObject?, private val context: Context) {
         return programmes
     }
 
+    /**
+     * Formats the JSON for the program view
+     * Adds to an 'Program' object and returns.
+     */
     fun programFormat(): Program {
         val program = Program(context)
         try {
@@ -63,6 +71,10 @@ class FormatJSON(private val array: JSONObject?, private val context: Context) {
         return program
     }
 
+    /**
+     * Formats the information for the Episode View
+     * Adds to an array of 'Episodes' and returns
+     */
     fun seasonFormat(): ArrayList<Episode> {
         val episodes = ArrayList<Episode>()
 

@@ -14,7 +14,7 @@ import io.github.krisbox.mytvscheduler.R
 import java.util.ArrayList
 
 /**
- * Description: TO-DO
+ * Description: Adapter for the Recycler View in the Search
  * @author Kris Box
  * Time: 22:19
  * Date: 20/02/2017
@@ -22,6 +22,9 @@ import java.util.ArrayList
  * Copyright (c) Kris Box 2017
  */
 class SearchRVAdapter internal constructor(internal var programmes: ArrayList<Program>, internal var context: Context) : RecyclerView.Adapter<SearchRVAdapter.TVViewHolder>() {
+    /**
+     * Inner class gets all the elements for data to be propagated
+     */
     inner class TVViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         internal var cv: CardView = itemView.findViewById(R.id.cv) as CardView
         internal var programName: TextView = itemView.findViewById(R.id.person_name) as TextView
@@ -32,23 +35,33 @@ class SearchRVAdapter internal constructor(internal var programmes: ArrayList<Pr
 
     }
 
+    /**
+     * Returns the number of results
+     */
     override fun getItemCount(): Int {
         return programmes.size
     }
 
+    /**
+     * When creating the view, we return the inner class of data
+     */
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): TVViewHolder {
         val v = LayoutInflater.from(viewGroup.context).inflate(R.layout.programme_card_view, viewGroup, false)
         val tvh = TVViewHolder(v)
         return tvh
     }
 
+    /**
+     * With the inner class, associate all the data to the elements to be shown
+     */
     override fun onBindViewHolder(tvViewHolder: TVViewHolder, i: Int) {
         tvViewHolder.programName.text = programmes[i].programName
         tvViewHolder.programRelease.text = programmes[i].programRelease
-        tvViewHolder.programPoster.setImageBitmap(Bitmap.createScaledBitmap(programmes[i].programPoster, 160, 220, false)) //Will only work on my phone..
+        tvViewHolder.programPoster.setImageBitmap(programmes[i].programPoster)
         tvViewHolder.programRating.text = programmes[i].programRating
         tvViewHolder.programID.text = programmes[i].id
     }
+
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView?) {
         super.onAttachedToRecyclerView(recyclerView)

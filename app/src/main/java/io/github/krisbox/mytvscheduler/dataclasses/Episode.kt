@@ -17,7 +17,9 @@ class Episode(data: Array<String>) {
     var episodeRating = data[3]
     var episodeRelease = data[4]
 
-
+    /**
+     * Used for testing, remove for production TODO
+     */
     override fun toString() : String{
         return "Season :" + seasonNo + ", Episode: " + episodeNo + ", Name: " + episodeName
     }

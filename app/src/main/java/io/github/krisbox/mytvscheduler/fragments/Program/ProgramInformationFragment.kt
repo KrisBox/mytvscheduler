@@ -1,12 +1,9 @@
 package io.github.krisbox.mytvscheduler.fragments.Program
 
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
 import android.content.Context
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.design.widget.TabLayout
-import android.support.v4.app.FragmentActivity
 import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
@@ -29,10 +26,17 @@ import io.github.krisbox.mytvscheduler.adapter.EpisodePagerAdapter
  */
 
 class ProgramInformationFragment(internal var id: String, internal var context: Context) : Fragment() {
+    /**
+     * Inflate the xml when the view is created
+     */
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.program_information, container, false)
     }
 
+    /**
+     * Give all the data for the program view when the view is created:
+     * Images, text, tabs, episode list etc
+     */
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -43,7 +47,7 @@ class ProgramInformationFragment(internal var id: String, internal var context: 
         title.text = program.programName
 
         val backdrop = view.findViewById(R.id.backdrop) as ImageView
-        backdrop.setImageBitmap(Bitmap.createScaledBitmap(program.programBackdrop, 400, 220, false))
+        backdrop.setImageBitmap(program.programBackdrop)
 
         val date = view.findViewById(R.id.date) as TextView
         date.text = program.programRelease
@@ -55,15 +59,18 @@ class ProgramInformationFragment(internal var id: String, internal var context: 
         overview.text = program.programOverview
 
         val viewPager = view.findViewById(R.id.pager) as ViewPager
+        val tab = view.findViewById(R.id.tabs) as TabLayout
         setupViewPager(viewPager, program, episodeList)
 
-        val tab = view.findViewById(R.id.tabs) as TabLayout
         tab.setupWithViewPager(viewPager)
+
 
     }
 
+    /**
+     * Creates the view pager which allows the user to slide and scroll through the episodes
+     */
     fun setupViewPager (viewPager: ViewPager, program: Program, episodeList: ArrayList<ArrayList<Episode>>){
-        val con = context as FragmentActivity
         val adapter = EpisodePagerAdapter(childFragmentManager, episodeList, context)
 
         for ( i in 0..(program.programNoOfSeasons!!.toInt()) - 1){

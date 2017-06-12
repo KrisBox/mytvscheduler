@@ -7,12 +7,12 @@ import java.net.URL
 import java.net.URLConnection
 
 /**
- * Description: This is the main file that gets the searchData from the website, depending on what the
+ * Description: This is the main file that gets the searchData from the website, depending on what the user
  * searched for.
  * @author Kris
  * Time: 19:54
  * Date: 09/01/2017
- * @version 1.0
+ * @version 2.0 : Changed for the new API website (TheMovieDB)
  * Copyright (c) Kris Box 2017
  */
 class GetData(private val programmeName: String) {
@@ -31,6 +31,9 @@ class GetData(private val programmeName: String) {
 
     }
 
+    /**
+     * Makes a connection for when the User searches for a program
+     */
     fun makeSearchConnection() {
         try {
             connection = URL(searchURL).openConnection()
@@ -40,6 +43,9 @@ class GetData(private val programmeName: String) {
 
     }
 
+    /**
+     * Makes a connection for the connection view
+     */
     fun makeProgramConnection(){
         try {
             connection = URL(idURL).openConnection()
@@ -48,6 +54,9 @@ class GetData(private val programmeName: String) {
         }
     }
 
+    /**
+     * Makes a connection for the episode view
+     */
     fun makeEpisodesConnection(){
         try {
             connection = URL(seasonsURL).openConnection()
@@ -56,6 +65,9 @@ class GetData(private val programmeName: String) {
         }
     }
 
+    /**
+     * Gets the information from the internet given the url
+     */
     fun getSearchData(): JSONObject? {
         val thread = Thread(Runnable {
             try {
@@ -83,6 +95,9 @@ class GetData(private val programmeName: String) {
 
     }
 
+    /**
+     * Gives the ID for the selected program (Program View)
+     */
     fun setIDForProgram(id: String){
         programID = id
 
@@ -90,6 +105,9 @@ class GetData(private val programmeName: String) {
         idURL += api
     }
 
+    /**
+     * Gives the ID for the season number (Episode View)
+     */
     fun setIDForEpisode(id: String, seasonNo: String){
         programID = id
         seasonsURL = "https://api.themoviedb.org/3/tv/"
