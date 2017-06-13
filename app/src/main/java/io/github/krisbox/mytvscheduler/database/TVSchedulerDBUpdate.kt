@@ -22,11 +22,18 @@ class TVSchedulerDBUpdate (internal var context: Context) {
     fun updateChecked (value: String, id: String, season: String, episode: String){
 
         val watchlist_query = ("UPDATE watch_list SET watched = '" + value + "' WHERE (programID = '"+ id +"' AND season_number = '"+ season +"' AND episode_number = '" + episode + "');")
-        // No if count is 0 TODO
-        val program_query = ("UPDATE programme SET watchlist = 'Yes' WHERE programID = '"+ id + "'")
-
-        db.execSQL(program_query)
         db.execSQL(watchlist_query)
+
+        val count_query = ("SELECT * FROM watch_list WHERE (programID = '" + id + "' AND watched = 'Yes');")
+        val cursor = db.rawQuery(count_query, null)
+        if (cursor.count == 0) {
+            val program_query = ("UPDATE programme SET watchlist = 'No' WHERE programID = '"+ id + "'")
+            db.execSQL(program_query)
+        } else {
+            val program_query = ("UPDATE programme SET watchlist = 'Yes' WHERE programID = '"+ id + "'")
+            db.execSQL(program_query)
+        }
+        cursor.close()
     }
 
 }

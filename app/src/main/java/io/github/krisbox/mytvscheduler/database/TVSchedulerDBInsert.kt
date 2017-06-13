@@ -22,23 +22,22 @@ class TVSchedulerDBInsert(internal var context: Context) {
     /**
      * Inserts into the Program table
      */
-    fun insertProgrammes(programmes: ArrayList<Program>){
-        for (i in 0..(programmes.size - 1)){
-            val values: ContentValues = ContentValues()
-            values.put(TVSchedulerContract().DBEntry().COLUMN_NAME_PROGRAMID, programmes[i].id)
-            values.put(TVSchedulerContract().DBEntry().COLUMN_NAME_NAME, programmes[i].programName)
-            values.put(TVSchedulerContract().DBEntry().COLUMN_NAME_AIR, programmes[i].programRelease)
-            values.put(TVSchedulerContract().DBEntry().COLUMN_NAME_RATING, programmes[i].programRating)
-            values.put(TVSchedulerContract().DBEntry().COLUMN_NAME_COVER_IMAGE, programmes[i].toByteArrayCover())
-            values.put(TVSchedulerContract().DBEntry().COLUMN_NAME_WATCHLIST, "No")
+    fun insertProgram(program: Program){
+        val values: ContentValues = ContentValues()
+        values.put(TVSchedulerContract().DBEntry().COLUMN_NAME_PROGRAMID, program.id)
+        values.put(TVSchedulerContract().DBEntry().COLUMN_NAME_NAME, program.programName)
+        values.put(TVSchedulerContract().DBEntry().COLUMN_NAME_AIR, program.programRelease)
+        values.put(TVSchedulerContract().DBEntry().COLUMN_NAME_RATING, program.programRating)
+        values.put(TVSchedulerContract().DBEntry().COLUMN_NAME_COVER_IMAGE, program.toByteArrayCover())
+        values.put(TVSchedulerContract().DBEntry().COLUMN_NAME_WATCHLIST, "No")
 
-            val query = "SELECT * FROM programme WHERE programID = '" + programmes[i].id + "';"
-            val cursor = db.rawQuery(query, null)
-            if (cursor.count == 0) {
-                val newRowID: Long = db.insert(TVSchedulerContract().DBEntry().TABLE_NAME_PROGRAMME, null, values)
-            } else {}
-            cursor.close()
-            }
+        val query = "SELECT * FROM programme WHERE programID = '" + program.id + "';"
+        val cursor = db.rawQuery(query, null)
+        if (cursor.count == 0) {
+            val newRowID: Long = db.insert(TVSchedulerContract().DBEntry().TABLE_NAME_PROGRAMME, null, values)
+        } else {}
+        cursor.close()
+
     }
 
     /**

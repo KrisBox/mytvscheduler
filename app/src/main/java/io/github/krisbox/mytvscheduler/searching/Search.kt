@@ -29,10 +29,6 @@ class Search(private val context: Context, private val query: String, private va
             if (info != null) {
                 val format = FormatJSON(info, context)
                 val programmes = format.searchFormat()
-                // TODO change to just selected cardview_episode below
-                val insertCache = TVSchedulerDBInsert(context)
-                insertCache.insertProgrammes(programmes)
-                insertCache.db.close()
                 return programmes
             }
 
@@ -53,9 +49,14 @@ class Search(private val context: Context, private val query: String, private va
             if (info != null){
                 val format = FormatJSON(info, context)
                 val program = format.programFormat()
-                val insertCache = TVSchedulerDBInsert(context)
-                insertCache.insertProgramInfo(program)
-                insertCache.db.close()
+
+                val insertCacheProgram = TVSchedulerDBInsert(context)
+                insertCacheProgram.insertProgram(program)
+                insertCacheProgram.db.close()
+
+                val insertCacheProgramInfo = TVSchedulerDBInsert(context)
+                insertCacheProgramInfo.insertProgramInfo(program)
+                insertCacheProgramInfo.db.close()
                 return program
             }
 

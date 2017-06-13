@@ -30,7 +30,6 @@ class TVSchedulerDBGet (internal var context: Context) {
                 program.programName = program_cursor.getString(3)
                 program.programRelease = program_cursor.getString(4)
                 program.programPoster = program.fromByteArrayCover(program_cursor.getBlob(2))
-                // Get episode count TODO
                 val episode_query = "SELECT * FROM watch_list WHERE programID = '" + program.id + "'"
                 val episode_cursor = db.rawQuery(episode_query, null)
                 println(program.id)
