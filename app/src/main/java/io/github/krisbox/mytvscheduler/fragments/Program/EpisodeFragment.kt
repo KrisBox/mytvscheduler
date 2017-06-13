@@ -13,7 +13,7 @@ import io.github.krisbox.mytvscheduler.adapter.EpisodeRVAdapter
 import io.github.krisbox.mytvscheduler.dataclasses.Episode
 
 /**
- * Description: Propagates the Episode cardview for a season of the selected episode
+ * Description: Propagates the Episode cardview for a season of the selected cardview_episode
  *
  * @author Kris Box
  * Time: 19:04
@@ -28,7 +28,7 @@ class EpisodeFragment(private var episodes: ArrayList<Episode>, internal var con
      * Inflate the xml when creating the view
      */
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.episode_list, container, false)
+        return inflater.inflate(R.layout.fragment_episode_list, container, false)
     }
 
     /**

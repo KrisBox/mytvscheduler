@@ -29,7 +29,7 @@ class Search(private val context: Context, private val query: String, private va
             if (info != null) {
                 val format = FormatJSON(info, context)
                 val programmes = format.searchFormat()
-                // TODO change to just selected episode below
+                // TODO change to just selected cardview_episode below
                 val insertCache = TVSchedulerDBInsert(context)
                 insertCache.insertProgrammes(programmes)
                 insertCache.db.close()
@@ -77,7 +77,7 @@ class Search(private val context: Context, private val query: String, private va
                 val info = data.getSearchData()
                 if (info != null){
                     val format = FormatJSON(info, context)
-                    val seasonEp = format.seasonFormat()
+                    val seasonEp = format.seasonFormat(id)
                     episodeData.add(seasonEp)
 
                 }

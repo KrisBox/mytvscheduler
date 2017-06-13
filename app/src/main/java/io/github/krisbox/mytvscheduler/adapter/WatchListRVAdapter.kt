@@ -8,29 +8,31 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import io.github.krisbox.mytvscheduler.dataclasses.Program
 import io.github.krisbox.mytvscheduler.R
+import io.github.krisbox.mytvscheduler.dataclasses.Program
 import java.util.ArrayList
 
 /**
- * Description: Adapter for the Recycler View in the Search
- * @author Kris Box
- * Time: 22:19
- * Date: 20/02/2017
- * @version 1.0
- * Copyright (c) Kris Box 2017
+ * Description: Adapter for the card views for the watchlist section
+ * @author Kris
+ * Time: 17:11
+ * Date: 13/06/2017
+ * Last Updated: 13/06/2017
+ * Copyright (c) Kristofer Box 2017
  */
-class SearchRVAdapter internal constructor(internal var programmes: ArrayList<Program>, internal var context: Context) : RecyclerView.Adapter<SearchRVAdapter.TVViewHolder>() {
+
+class WatchListRVAdapter internal constructor(internal var programmes: ArrayList<Program>, internal var context: Context) : RecyclerView.Adapter<WatchListRVAdapter.TVViewHolder>() {
     /**
      * Inner class gets all the elements for data to be propagated
      */
     inner class TVViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        internal var cv: CardView = itemView.findViewById(R.id.cv) as CardView
-        internal var programName: TextView = itemView.findViewById(R.id.person_name) as TextView
-        internal var programRelease: TextView = itemView.findViewById(R.id.person_age) as TextView
-        internal var programRating: TextView = itemView.findViewById(R.id.imdbRating) as TextView
-        internal var programPoster: ImageView = itemView.findViewById(R.id.imageView) as ImageView
-        internal var programID: TextView = itemView.findViewById(R.id.program_id) as TextView
+        internal var cv: CardView = itemView.findViewById(R.id.watchlist_cv) as CardView
+        internal var programName: TextView = cv.findViewById(R.id.program_name) as TextView
+        internal var programRelease: TextView = cv.findViewById(R.id.program_release) as TextView
+        internal var programEpisodesWatched: TextView = cv.findViewById(R.id.episodes_watched) as TextView
+        internal var programEpisodesTotal: TextView = cv.findViewById(R.id.episodes_total) as TextView
+        internal var programPoster: ImageView = cv.findViewById(R.id.imageView) as ImageView
+        internal var programID: TextView = cv.findViewById(R.id.program_id) as TextView
 
     }
 
@@ -45,7 +47,7 @@ class SearchRVAdapter internal constructor(internal var programmes: ArrayList<Pr
      * When creating the view, we return the inner class of data
      */
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): TVViewHolder {
-        val v = LayoutInflater.from(viewGroup.context).inflate(R.layout.cardview_programme_view, viewGroup, false)
+        val v = LayoutInflater.from(viewGroup.context).inflate(R.layout.cardview_watchlist, viewGroup, false)
         val tvh = TVViewHolder(v)
         return tvh
     }
@@ -57,14 +59,12 @@ class SearchRVAdapter internal constructor(internal var programmes: ArrayList<Pr
         tvViewHolder.programName.text = programmes[i].programName
         tvViewHolder.programRelease.text = programmes[i].programRelease
         tvViewHolder.programPoster.setImageBitmap(programmes[i].programPoster)
-        tvViewHolder.programRating.text = programmes[i].programRating
+        tvViewHolder.programEpisodesWatched.text = programmes[i].programEpisodeViews
+        tvViewHolder.programEpisodesTotal.text = (" of " + programmes[i].programEpisodeTotal)
         tvViewHolder.programID.text = programmes[i].id
     }
-
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView?) {
         super.onAttachedToRecyclerView(recyclerView)
     }
-
-
 }

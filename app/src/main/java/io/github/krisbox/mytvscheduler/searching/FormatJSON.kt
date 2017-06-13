@@ -76,7 +76,7 @@ class FormatJSON(private val array: JSONObject?, private val context: Context) {
      * Formats the information for the Episode View
      * Adds to an array of 'Episodes' and returns
      */
-    fun seasonFormat(): ArrayList<Episode> {
+    fun seasonFormat(tv_id: String): ArrayList<Episode> {
         val episodes = ArrayList<Episode>()
 
         val innerArray: JSONArray = array!!.getJSONArray("episodes")
@@ -90,7 +90,7 @@ class FormatJSON(private val array: JSONObject?, private val context: Context) {
                         json.getString("name"),
                         json.getString("vote_average"),
                         json.getString("air_date"),
-                        json.getString("id"))
+                        tv_id)
                 val episode = Episode(string)
 
                 val insertCache = TVSchedulerDBInsert(context)

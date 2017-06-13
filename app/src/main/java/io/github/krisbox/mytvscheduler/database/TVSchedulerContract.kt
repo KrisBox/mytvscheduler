@@ -26,6 +26,7 @@ class TVSchedulerContract {
             val COLUMN_NAME_NAME = "name"
             val COLUMN_NAME_AIR = "air"
             val COLUMN_NAME_RATING = "rating"
+            val COLUMN_NAME_WATCHLIST = "watchlist"
 
             //TABLE: Programme Extended
             val TABLE_NAME_PROGRAMME_EXTENDED = "programme_extended"
@@ -50,7 +51,7 @@ class TVSchedulerContract {
     val CREATE_PROGRAMME_TABLE = ("CREATE TABLE " + DBEntry().TABLE_NAME_PROGRAMME + "(" + DBEntry().ID + " INTEGER PRIMARY KEY,"
     + DBEntry().COLUMN_NAME_PROGRAMID + " TEXT, " + DBEntry().COLUMN_NAME_COVER_IMAGE + " BLOB, "
     + DBEntry().COLUMN_NAME_NAME + " TEXT, " + DBEntry().COLUMN_NAME_AIR + " TEXT, "
-    + DBEntry().COLUMN_NAME_RATING + " TEXT" +
+    + DBEntry().COLUMN_NAME_RATING + " TEXT, " + DBEntry().COLUMN_NAME_WATCHLIST + " TEXT" +
     ")")
 
     //Statement for Create Table Program Extended

@@ -29,6 +29,10 @@ class Program(internal var context: Context) {
     var programBackdrop: Bitmap? = null
     var programNoOfSeasons: String? = null
 
+    //Watchlist
+    var programEpisodeViews: String? = null
+    var programEpisodeTotal: String? = null
+
     /**
      * Used in the SearchView when showing the RecyclerView
      */
@@ -86,5 +90,9 @@ class Program(internal var context: Context) {
         val stream = ByteArrayOutputStream()
         programBackdrop!!.compress(Bitmap.CompressFormat.PNG, 100, stream)
         return stream.toByteArray()
+    }
+
+    fun fromByteArrayCover(array: ByteArray) : Bitmap {
+        return BitmapFactory.decodeByteArray(array, 0, array.size)
     }
 }

@@ -7,7 +7,7 @@ import io.github.krisbox.mytvscheduler.dataclasses.Episode
 import io.github.krisbox.mytvscheduler.dataclasses.Program
 
 /**
- * Description: Inserts a program (caching) into the database if not already present
+ * Description: All inserting to the database is done here
  * @author Kris
  * Time: 14:54
  * Date: 11/06/2017
@@ -30,6 +30,7 @@ class TVSchedulerDBInsert(internal var context: Context) {
             values.put(TVSchedulerContract().DBEntry().COLUMN_NAME_AIR, programmes[i].programRelease)
             values.put(TVSchedulerContract().DBEntry().COLUMN_NAME_RATING, programmes[i].programRating)
             values.put(TVSchedulerContract().DBEntry().COLUMN_NAME_COVER_IMAGE, programmes[i].toByteArrayCover())
+            values.put(TVSchedulerContract().DBEntry().COLUMN_NAME_WATCHLIST, "No")
 
             val query = "SELECT * FROM programme WHERE programID = '" + programmes[i].id + "';"
             val cursor = db.rawQuery(query, null)

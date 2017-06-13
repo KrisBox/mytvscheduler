@@ -15,7 +15,7 @@ import io.github.krisbox.mytvscheduler.dataclasses.Episode
 import java.util.ArrayList
 
 /**
- * Description: Recycler View Adapter for the episode lists in Program View
+ * Description: Recycler View Adapter for the cardview_episode lists in Program View
  * @author Kris
  * Time: 21:37
  * Date: 03/06/2017
@@ -37,7 +37,7 @@ class EpisodeRVAdapter internal constructor(internal var episodes: ArrayList<Epi
     }
 
     /**
-     * Get the size of the episode list
+     * Get the size of the cardview_episode list
      */
     override fun getItemCount(): Int {
         return episodes.size
@@ -47,19 +47,20 @@ class EpisodeRVAdapter internal constructor(internal var episodes: ArrayList<Epi
      * When creating the view, create an instance of the inner class
      */
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): EpisodeRVAdapter.EPViewHolder {
-        val v = LayoutInflater.from(viewGroup.context).inflate(R.layout.episode, viewGroup, false)
+        val v = LayoutInflater.from(viewGroup.context).inflate(R.layout.cardview_episode, viewGroup, false)
         val tvh = EPViewHolder(v)
         return tvh
     }
 
     /**
-     * Apply all the data to the elements of the cardview for each episode
+     * Apply all the data to the elements of the cardview for each cardview_episode
      */
     override fun onBindViewHolder(tvViewHolder: EpisodeRVAdapter.EPViewHolder, i: Int) {
         tvViewHolder.episodeName.text = (episodes[i].episodeNo + ". " + episodes[i].episodeName)
         tvViewHolder.episodeRelease.text = episodes[i].episodeRelease
         tvViewHolder.episodeRating.text = episodes[i].episodeRating
 
+        // Add check change to the database
         tvViewHolder.check.setOnCheckedChangeListener {buttonView, _ ->
             if (buttonView.isChecked){
                 val update = TVSchedulerDBUpdate(context)
@@ -71,8 +72,6 @@ class EpisodeRVAdapter internal constructor(internal var episodes: ArrayList<Epi
                 update.db.close()
             }
         }
-
-
 
         // Load check box as ticked/not ticked if db says so
         val dbHelper = TVSchedulerDBHelper(context)

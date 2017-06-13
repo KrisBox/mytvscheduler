@@ -30,12 +30,12 @@ class ProgramInformationFragment(internal var id: String, internal var context: 
      * Inflate the xml when the view is created
      */
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.program_information, container, false)
+        return inflater.inflate(R.layout.fragment_program_information, container, false)
     }
 
     /**
      * Give all the data for the program view when the view is created:
-     * Images, text, tabs, episode list etc
+     * Images, text, tabs, cardview_episode list etc
      */
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
