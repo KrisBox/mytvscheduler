@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import io.github.krisbox.mytvscheduler.R
+import io.github.krisbox.mytvscheduler.database.TVSchedulerDBGet
 import io.github.krisbox.mytvscheduler.searching.GetImage
 import java.io.ByteArrayOutputStream
 
@@ -21,12 +22,14 @@ class Program(internal var context: Context) {
     var programName: String? = null
     var programRelease: String? = null
     var programPoster: Bitmap? = null
+    var programPosterURL: String? = null
     var programRating: String? = null
     var id: String? = null
 
     // Program Extended information declarations
     var programOverview: String? = null
     var programBackdrop: Bitmap? = null
+    var programBackdropURL: String? = null
     var programNoOfSeasons: String? = null
 
     //Watchlist
@@ -39,13 +42,20 @@ class Program(internal var context: Context) {
     fun giveSearchData(info: Array<String>){
         programName = info[0]
         programRelease = info[1]
+        programPosterURL = info[2]
         programRating = info[3]
         id = info[4]
 
         // Get image if available, show default if not
-        if (info[2] != "null"){
-            val image = GetImage("https://image.tmdb.org/t/p/w500/" + info[2])
-            programPoster = image.image
+        if (programPosterURL != "null"){
+            val dbPosterUrl = TVSchedulerDBGet(context).getCoverUrl(id!!)
+            if (dbPosterUrl == programPosterURL){
+                var image = GetImage(id!!).getCoverArray(context)
+                programPoster = fromByteArray(image)
+            } else {
+                val image = GetImage("https://image.tmdb.org/t/p/original/" + programPosterURL)
+                programPoster = image.image
+            }
         }else {
             programPoster = BitmapFactory.decodeResource(context.resources, R.drawable.no_poster)
         }
@@ -57,20 +67,34 @@ class Program(internal var context: Context) {
     fun giveProgramData(info: Array<String>){
         programName = info[0]
         programRelease = info[1]
+        programPosterURL = info[2]
+        programBackdropURL = info[6]
         programRating = info[3]
         id = info[4]
 
         // Get images if available, use defaults if not
-        if (info[2] != "null"){
-            val image = GetImage("https://image.tmdb.org/t/p/w500/" + info[2])
-            programPoster = image.image
+        if (programPosterURL != "null"){
+            val dbPosterUrl = TVSchedulerDBGet(context).getCoverUrl(id!!)
+            if (dbPosterUrl == programPosterURL){
+                var image = GetImage(id!!).getCoverArray(context)
+                programPoster = fromByteArray(image)
+            } else {
+                val image = GetImage("https://image.tmdb.org/t/p/w500/" + programPosterURL)
+                programPoster = image.image
+            }
         }else {
             programPoster = BitmapFactory.decodeResource(context.resources, R.drawable.no_poster)
         }
 
-        if (info[6] != "null"){
-            val image = GetImage("https://image.tmdb.org/t/p/w500/" + info[6])
-            programBackdrop = image.image
+        if (programBackdropURL != "null"){
+            val dbBackdropUrl = TVSchedulerDBGet(context).getBackUrl(id!!)
+            if (dbBackdropUrl == programBackdropURL){
+                var image = GetImage(id!!).getBackArray(context)
+                programBackdrop = fromByteArray(image)
+            } else {
+                val image = GetImage("https://image.tmdb.org/t/p/w500/" + programBackdropURL)
+                programBackdrop = image.image
+            }
         }else {
             programBackdrop = BitmapFactory.decodeResource(context.resources, R.drawable.no_poster)
         }
@@ -92,7 +116,7 @@ class Program(internal var context: Context) {
         return stream.toByteArray()
     }
 
-    fun fromByteArrayCover(array: ByteArray) : Bitmap {
+    fun fromByteArray(array: ByteArray) : Bitmap {
         return BitmapFactory.decodeByteArray(array, 0, array.size)
     }
 }

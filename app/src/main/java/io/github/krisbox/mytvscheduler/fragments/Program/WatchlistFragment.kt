@@ -11,14 +11,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import io.github.krisbox.mytvscheduler.R
-import io.github.krisbox.mytvscheduler.adapter.SearchRVAdapter
 import io.github.krisbox.mytvscheduler.adapter.WatchListRVAdapter
 import io.github.krisbox.mytvscheduler.database.TVSchedulerDBGet
-import io.github.krisbox.mytvscheduler.searching.Search
 import io.github.krisbox.mytvscheduler.support.RecyclerItemClickListener
 
 /**
- * Description: TODO
+ * Description: Fragment for My Watchlist: Handles the loading of info from database 0
  * @author Kris
  * Time: 17:28
  * Date: 13/06/2017
@@ -37,7 +35,7 @@ class WatchlistFragment(internal var context: Context) : Fragment(){
 
     /**
      * Create the recycler view for the results.
-     * Add a listener for each cardview and create the cardview_episode fragment when clicked
+     * Add a listener for each card_view and create the card_view episode fragment when clicked
      */
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

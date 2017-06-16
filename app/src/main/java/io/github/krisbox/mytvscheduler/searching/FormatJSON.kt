@@ -93,10 +93,6 @@ class FormatJSON(private val array: JSONObject?, private val context: Context) {
                         tv_id)
                 val episode = Episode(string)
 
-                val insertCache = TVSchedulerDBInsert(context)
-                insertCache.insertEpisodeInfo(episode)
-                insertCache.db.close()
-
                 episodes.add(episode)
             }
 

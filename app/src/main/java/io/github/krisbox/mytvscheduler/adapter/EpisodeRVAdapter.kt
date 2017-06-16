@@ -10,12 +10,13 @@ import android.widget.CheckBox
 import android.widget.TextView
 import io.github.krisbox.mytvscheduler.R
 import io.github.krisbox.mytvscheduler.database.TVSchedulerDBHelper
+import io.github.krisbox.mytvscheduler.database.TVSchedulerDBInsert
 import io.github.krisbox.mytvscheduler.database.TVSchedulerDBUpdate
 import io.github.krisbox.mytvscheduler.dataclasses.Episode
 import java.util.ArrayList
 
 /**
- * Description: Recycler View Adapter for the cardview_episode lists in Program View
+ * Description: Recycler View Adapter for the card_view episode lists in Program View
  * @author Kris
  * Time: 21:37
  * Date: 03/06/2017
@@ -23,7 +24,7 @@ import java.util.ArrayList
  * Copyright (c) Kristofer Box 2017
  */
 
-class EpisodeRVAdapter internal constructor(internal var episodes: ArrayList<Episode>, internal var context: Context) : RecyclerView.Adapter<EpisodeRVAdapter.EPViewHolder>() {
+class EpisodeRVAdapter internal constructor(internal var episodes: ArrayList<ArrayList<Episode>>, internal val seasonNumber: String, internal var context: Context) : RecyclerView.Adapter<EpisodeRVAdapter.EPViewHolder>() {
     /**
      * Inner class gathers all the elements in which data will be propagated
      */
@@ -37,10 +38,10 @@ class EpisodeRVAdapter internal constructor(internal var episodes: ArrayList<Epi
     }
 
     /**
-     * Get the size of the cardview_episode list
+     * Get the size of the card_view episode list
      */
     override fun getItemCount(): Int {
-        return episodes.size
+        return episodes[seasonNumber.toInt()-1].size
     }
 
     /**
@@ -56,19 +57,25 @@ class EpisodeRVAdapter internal constructor(internal var episodes: ArrayList<Epi
      * Apply all the data to the elements of the cardview for each cardview_episode
      */
     override fun onBindViewHolder(tvViewHolder: EpisodeRVAdapter.EPViewHolder, i: Int) {
-        tvViewHolder.episodeName.text = (episodes[i].episodeNo + ". " + episodes[i].episodeName)
-        tvViewHolder.episodeRelease.text = episodes[i].episodeRelease
-        tvViewHolder.episodeRating.text = episodes[i].episodeRating
+        tvViewHolder.episodeName.text = (episodes[seasonNumber.toInt() - 1][i].episodeNo + ". " + episodes[seasonNumber.toInt() - 1][i].episodeName)
+        tvViewHolder.episodeRelease.text = episodes[seasonNumber.toInt() - 1][i].episodeRelease
+        tvViewHolder.episodeRating.text = episodes[seasonNumber.toInt() - 1][i].episodeRating
 
         // Add check change to the database
         tvViewHolder.check.setOnCheckedChangeListener {buttonView, _ ->
             if (buttonView.isChecked){
+
+                //Insert all to watchlist when a check is pressed
+                val insert = TVSchedulerDBInsert(context)
+                insert.insertToWatchlist(episodes)
+                insert.db.close()
+
                 val update = TVSchedulerDBUpdate(context)
-                update.updateChecked("Yes", episodes[i].programID, episodes[i].seasonNo, episodes[i].episodeNo)
+                update.updateChecked("Yes", episodes[seasonNumber.toInt() - 1][i].programID, episodes[seasonNumber.toInt() - 1][i].seasonNo, episodes[seasonNumber.toInt() - 1][i].episodeNo)
                 update.db.close()
             } else {
                 val update = TVSchedulerDBUpdate(context)
-                update.updateChecked("No", episodes[i].programID, episodes[i].seasonNo, episodes[i].episodeNo)
+                update.updateChecked("No", episodes[seasonNumber.toInt() - 1][i].programID, episodes[seasonNumber.toInt() - 1][i].seasonNo, episodes[seasonNumber.toInt() - 1][i].episodeNo)
                 update.db.close()
             }
         }
@@ -76,10 +83,10 @@ class EpisodeRVAdapter internal constructor(internal var episodes: ArrayList<Epi
         // Load check box as ticked/not ticked if db says so
         val dbHelper = TVSchedulerDBHelper(context)
         val db = dbHelper.writableDatabase
-        val query = "SELECT * FROM watch_list WHERE (programID = '" + episodes[i].programID + "' AND season_number = '"+ episodes[i].seasonNo +"' AND episode_number = '"+ episodes[i].episodeNo + "');"
+        val query = "SELECT * FROM watch_list WHERE (program_id = '" + episodes[seasonNumber.toInt() - 1][i].programID + "' AND season_number = '"+ episodes[seasonNumber.toInt() - 1][i].seasonNo +"' AND episode_number = '"+ episodes[seasonNumber.toInt() - 1][i].episodeNo + "');"
         val cursor = db.rawQuery(query, null)
         if (cursor.moveToFirst()){
-            if (cursor.getString(7) == "Yes"){
+            if (cursor.getString(4) == "Yes"){
                 tvViewHolder.check.setChecked(true)
             } else {
                 tvViewHolder.check.setChecked(false)

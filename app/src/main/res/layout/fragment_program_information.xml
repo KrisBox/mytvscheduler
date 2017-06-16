@@ -45,8 +45,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/date"
-                    android:layout_below="@+id/title"
+                    android:layout_below="@id/title"
                     android:text="23 Years Old" />
+
+                <Button
+                    android:id="@+id/add_to_watchlist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/title"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -54,12 +63,12 @@
                     android:text = "IMDB Rating: "
                     android:layout_below="@+id/date"
                     />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id = "@+id/imdbRating"
                     android:paddingLeft="2dp"
-                    android:text = "5.0"
                     android:layout_toRightOf="@+id/imdbTitle"
                     android:layout_toEndOf="@+id/imdbTitle"
                     android:layout_below="@+id/date"
@@ -69,7 +78,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id = "@+id/overview"
-                    android:layout_below="@+id/imdbTitle"
+                    android:layout_below="@id/add_to_watchlist"
                     />
 
             </RelativeLayout>

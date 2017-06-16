@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import io.github.krisbox.mytvscheduler.dataclasses.Episode
@@ -15,6 +16,9 @@ import io.github.krisbox.mytvscheduler.dataclasses.Program
 import io.github.krisbox.mytvscheduler.R
 import io.github.krisbox.mytvscheduler.searching.Search
 import io.github.krisbox.mytvscheduler.adapter.EpisodePagerAdapter
+import io.github.krisbox.mytvscheduler.database.TVSchedulerDBDelete
+import io.github.krisbox.mytvscheduler.database.TVSchedulerDBGet
+import io.github.krisbox.mytvscheduler.database.TVSchedulerDBInsert
 
 /**
  * Description: Shows the information of a program given an ID
@@ -63,6 +67,40 @@ class ProgramInformationFragment(internal var id: String, internal var context: 
         setupViewPager(viewPager, program, episodeList)
 
         tab.setupWithViewPager(viewPager)
+
+        val addToWatchlist = view.findViewById(R.id.add_to_watchlist) as Button
+        // TODO set text to remove if already in database
+        val get = TVSchedulerDBGet(context)
+        val present_query = "SELECT * FROM watch_list WHERE program_id = '" + episodeList[0][0].programID + "';"
+        val present_cursor = get.db.rawQuery(present_query, null)
+        if (present_cursor.count != 0){
+            addToWatchlist.text = "Remove From Watchlist"
+        } else {
+            addToWatchlist.text = "Add To Watchlist"
+        }
+
+        present_cursor.close()
+
+        addToWatchlist.setOnClickListener{
+
+            if (addToWatchlist.text == "Add To Watchlist") {
+                val insert = TVSchedulerDBInsert(context)
+                insert.insertToWatchlist(episodeList)
+                insert.db.close()
+
+                // Refresh to change text
+                val ft = fragmentManager.beginTransaction()
+                ft.detach(this).attach(this).commit()
+            } else {
+                val delete = TVSchedulerDBDelete(context)
+                delete.deleteFromWatchlist(episodeList[0][0].programID)
+                delete.db.close()
+
+                // Refresh to change text
+                val ft = fragmentManager.beginTransaction()
+                ft.detach(this).attach(this).commit()
+            }
+        }
 
 
     }

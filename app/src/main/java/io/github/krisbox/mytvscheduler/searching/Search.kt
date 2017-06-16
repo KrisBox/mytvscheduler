@@ -51,12 +51,9 @@ class Search(private val context: Context, private val query: String, private va
                 val program = format.programFormat()
 
                 val insertCacheProgram = TVSchedulerDBInsert(context)
-                insertCacheProgram.insertProgram(program)
+                insertCacheProgram.insertProgramCache(program)
                 insertCacheProgram.db.close()
 
-                val insertCacheProgramInfo = TVSchedulerDBInsert(context)
-                insertCacheProgramInfo.insertProgramInfo(program)
-                insertCacheProgramInfo.db.close()
                 return program
             }
 
@@ -83,6 +80,10 @@ class Search(private val context: Context, private val query: String, private va
 
                 }
             }
+
+            val insertCacheEpisode = TVSchedulerDBInsert(context)
+            insertCacheEpisode.insertEpisodeCache(episodeData)
+            insertCacheEpisode.db.close()
 
             return episodeData
         }

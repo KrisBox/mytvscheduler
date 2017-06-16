@@ -7,7 +7,7 @@ This very first version marks the first milestone for the app. It is actually us
 The feature list for v0.1:
 
     - You can search for an episode using key words ('Game' for Game of Thrones eg).
-    - You can select an episode from your search to see the program information.
+    - You can select a program from your search to see the program information.
     - You can see the overview, average rating, poster, and each episode that exists for the program.
     - You can mark any episode as watched and the program will remember this forever.
     - Each season is shown in tabs with each episode shown underneath.

@@ -21,8 +21,8 @@ class TVSchedulerDBHelper(context: Context) : SQLiteOpenHelper(context, TVSchedu
      */
     override fun onCreate(db: SQLiteDatabase) {
         val tv = TVSchedulerContract()
-        db.execSQL(tv.CREATE_PROGRAMME_TABLE)
-        db.execSQL(tv.CREATE_PROGRAMME_EXT_TABLE)
+        db.execSQL(tv.CREATE_PROGRAM_CACHE_TABLE)
+        db.execSQL(tv.CREATE_EPISODE_CACHE_TABLE)
         db.execSQL(tv.CREATE_WATCHLIST_TABLE)
     }
 

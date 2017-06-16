@@ -1,7 +1,9 @@
 package io.github.krisbox.mytvscheduler.searching
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import io.github.krisbox.mytvscheduler.database.TVSchedulerDBGet
 import java.net.URL
 
 /**
@@ -35,5 +37,25 @@ class GetImage(private val url: String) {
             return bm
         }
 
+    fun getCoverArray(context: Context) : ByteArray {
+            val query = "SELECT cover_image FROM program_cache WHERE program_id = '" + url + "';"
+            val get = TVSchedulerDBGet(context)
+            val cursor = get.db.rawQuery(query, null)
+            cursor.moveToFirst()
+            val arr = cursor.getBlob(0)
+            cursor.close()
+            get.db.close()
+            return arr
+    }
 
+    fun getBackArray(context: Context) : ByteArray {
+        val query = "SELECT back_image FROM program_cache WHERE program_id = '" + url + "';"
+        val get = TVSchedulerDBGet(context)
+        val cursor = get.db.rawQuery(query, null)
+        cursor.moveToFirst()
+        val arr = cursor.getBlob(0)
+        cursor.close()
+        get.db.close()
+        return arr
+    }
 }

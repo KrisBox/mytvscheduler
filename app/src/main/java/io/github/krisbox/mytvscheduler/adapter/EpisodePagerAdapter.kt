@@ -30,11 +30,11 @@ class EpisodePagerAdapter(manager: FragmentManager, internal var episodeList: Ar
     override fun getItem(position: Int): Fragment {
         for ( i in 0..count) {
             if (i == position) {
-                return EpisodeFragment(episodeList[i], context)
+                return EpisodeFragment(episodeList, (i+1).toString(), context)
             }
         }
         // This will never happen but is needed
-        return EpisodeFragment(episodeList[0], context)
+        return EpisodeFragment(episodeList, "1", context)
     }
 
     /**

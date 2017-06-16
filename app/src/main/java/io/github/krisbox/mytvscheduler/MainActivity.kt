@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.SearchView
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
+import io.github.krisbox.mytvscheduler.fragments.Other.SettingsFragment
 import io.github.krisbox.mytvscheduler.fragments.Program.WatchlistFragment
 import io.github.krisbox.mytvscheduler.fragments.Searching.SearchResultsFragment
 
@@ -110,7 +111,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 fragmentTransaction.commit()
             }
             R.id.nav_settings -> {
+                val fragmentManager = supportFragmentManager
+                val fragmentTransaction = fragmentManager.beginTransaction()
 
+                val settingsFragment = SettingsFragment(this@MainActivity)
+                fragmentTransaction.replace(R.id.search_fragment_placeholder, settingsFragment, "SETTINGS_FRAGMENT")
+                fragmentTransaction.commit()
             }
         }
 
