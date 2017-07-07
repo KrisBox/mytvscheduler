@@ -1,5 +1,6 @@
 package io.github.krisbox.mytvscheduler.fragments.Searching
 
+import android.annotation.SuppressLint
 import android.support.v4.app.Fragment
 import android.content.Context
 import android.os.Bundle
@@ -18,6 +19,7 @@ import io.github.krisbox.mytvscheduler.support.RecyclerItemClickListener
 
 
 
+@SuppressLint("ValidFragment")
 /**
  * Description: Shows the search results when the search is complete
  *
@@ -39,7 +41,7 @@ class SearchResultsFragment(private var query: String, internal var context: Con
 
     /**
      * Create the recycler view for the results.
-     * Add a listener for each cardview and create the cardview_episode fragment when clicked
+     * Add a listener for each cardview and create the cardview episode fragment when clicked
      */
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -69,6 +71,7 @@ class SearchResultsFragment(private var query: String, internal var context: Con
                 val searchFrag = fragmentManager.findFragmentByTag("SEARCH_FRAGMENT")
                 if (searchFrag != null && searchFrag.isVisible){
                     fragmentTransaction.replace(R.id.search_fragment_placeholder, programInfo)
+                    fragmentTransaction.addToBackStack("PROGRAM_INFORMATION_FRAGMENT")
                     fragmentTransaction.commit()
                 }
             }

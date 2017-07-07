@@ -1,8 +1,6 @@
 package io.github.krisbox.mytvscheduler.searching
 
-
 import android.content.Context
-import io.github.krisbox.mytvscheduler.database.TVSchedulerDBInsert
 import io.github.krisbox.mytvscheduler.dataclasses.Episode
 import io.github.krisbox.mytvscheduler.dataclasses.Program
 import org.json.JSONArray
@@ -20,7 +18,7 @@ import org.json.JSONObject
 class FormatJSON(private val array: JSONObject?, private val context: Context) {
 
     /**
-     * Formats the search data from the searchview
+     * Formats the search data from the search view
      * Adds to an array of 'Programs' and returns
      */
     fun searchFormat(): ArrayList<Program> {
@@ -32,11 +30,20 @@ class FormatJSON(private val array: JSONObject?, private val context: Context) {
             for ( i in 0..(innerArray.length() - 1)) {
                 val json = innerArray.getJSONObject(i)
 
+                //Get array of genres and turn into string
+                val genreArray: JSONArray = json.getJSONArray("genre_ids")
+                var genreString: String = ""
+                for (n in 0..(genreArray.length()- 1)){
+                    genreString += genreArray.getString(n)
+                    genreString += ","
+                }
+
                 val string: Array<String> = arrayOf(json.getString("name"),
                         json.getString("first_air_date"),
                         json.getString("poster_path"),
                         json.getString("vote_average"),
-                        json.getString("id"))
+                        json.getString("id"),
+                        genreString!!)
                 val program = Program(context)
                 program.giveSearchData(string)
                 programmes.add(program)
@@ -99,7 +106,6 @@ class FormatJSON(private val array: JSONObject?, private val context: Context) {
         } catch (e: JSONException){
             e.printStackTrace()
         }
-
 
         return episodes
     }

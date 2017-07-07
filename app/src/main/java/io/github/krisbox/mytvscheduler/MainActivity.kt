@@ -1,5 +1,6 @@
 package io.github.krisbox.mytvscheduler
 
+import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -9,9 +10,12 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.SearchView
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
+import io.github.krisbox.mytvscheduler.fragments.Discover.DiscoverFragment
 import io.github.krisbox.mytvscheduler.fragments.Other.SettingsFragment
 import io.github.krisbox.mytvscheduler.fragments.Program.WatchlistFragment
 import io.github.krisbox.mytvscheduler.fragments.Searching.SearchResultsFragment
+import java.io.File
+
 
 /**
  * Description: Main Activity for the App
@@ -46,7 +50,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val navigationView = findViewById(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
 
+        // Allow for the searching in toolbar
         search()
+
+        // Load the discover fragment
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+
+        val discover = DiscoverFragment(this)
+        fragmentTransaction.replace(R.id.search_fragment_placeholder, discover, "DISCOVER_FRAGMENT")
+        fragmentTransaction.addToBackStack("DISCOVER_FRAGMENT")
+        fragmentTransaction.commit()
+
     }
 
     /**
@@ -70,30 +85,26 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                 val searchResults = SearchResultsFragment(query, this@MainActivity)
                 fragmentTransaction.replace(R.id.search_fragment_placeholder, searchResults, "SEARCH_FRAGMENT")
+                fragmentTransaction.addToBackStack("SEARCH_FRAGMENT")
                 fragmentTransaction.commit()
             }
 
         })
     }
 
-    /**
-     * Navigation Drawer Stuff TODO
-     */
     override fun onBackPressed() {
 
-        val fragMan = fragmentManager
-        val searchFrag = fragmentManager.findFragmentByTag("SEARCH_FRAGMENT")
-        if (searchFrag != null && searchFrag.isVisible){
-            val fragmentTransaction = fragMan.beginTransaction()
-            fragmentTransaction.remove(searchFrag)
-            fragmentTransaction.commit()
-        }
+        val count = supportFragmentManager.backStackEntryCount
 
-        val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START)
+        if (count == 0) {
+            val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
+            if (drawer.isDrawerOpen(GravityCompat.START)) {
+                drawer.closeDrawer(GravityCompat.START)
+            } else {
+                super.onBackPressed()
+            }
         } else {
-            super.onBackPressed()
+            supportFragmentManager.popBackStack()
         }
     }
 
@@ -101,6 +112,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle navigation view item clicks here TODO
         when (item.itemId) {
             R.id.nav_home -> {
+                // Load the discover fragment
+                val fragmentManager = supportFragmentManager
+                val fragmentTransaction = fragmentManager.beginTransaction()
+
+                val discover = DiscoverFragment(this)
+                fragmentTransaction.replace(R.id.search_fragment_placeholder, discover, "DISCOVER_FRAGMENT")
+                fragmentTransaction.addToBackStack("DISCOVER_FRAGMENT")
+                fragmentTransaction.commit()
             }
             R.id.nav_watch -> {
                 val fragmentManager = supportFragmentManager
@@ -108,6 +127,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                 val watchlistResults = WatchlistFragment(this@MainActivity)
                 fragmentTransaction.replace(R.id.search_fragment_placeholder, watchlistResults, "WATCHLIST_FRAGMENT")
+                fragmentTransaction.addToBackStack("WATCHLIST_FRAGMENT")
                 fragmentTransaction.commit()
             }
             R.id.nav_settings -> {
@@ -116,6 +136,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                 val settingsFragment = SettingsFragment(this@MainActivity)
                 fragmentTransaction.replace(R.id.search_fragment_placeholder, settingsFragment, "SETTINGS_FRAGMENT")
+                fragmentTransaction.addToBackStack("SETTINGS_FRAGMENT")
                 fragmentTransaction.commit()
             }
         }
@@ -123,5 +144,48 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
         drawer.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    /**
+     * The following is set up to delete the cache when the app is backed out of.
+     */
+    override fun onStop() {
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        try {
+            println ("Deleting all cache")
+            trimCache(this)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+    }
+
+    fun trimCache(context: Context) {
+        try {
+            val dir = context.cacheDir
+            if (dir != null && dir.isDirectory) {
+                deleteDir(dir)
+            }
+        } catch (e: Exception) {}
+
+    }
+
+    fun deleteDir(dir: File?): Boolean {
+        if (dir != null && dir.isDirectory) {
+            val children = dir.list()
+            for (i in children.indices) {
+                val success = deleteDir(File(dir, children[i]))
+                if (!success) {
+                    return false
+                }
+            }
+        }
+
+        // The directory is now empty so delete it
+        return dir!!.delete()
     }
 }

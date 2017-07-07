@@ -1,5 +1,6 @@
 package io.github.krisbox.mytvscheduler.fragments.Program
 
+import android.annotation.SuppressLint
 import android.support.v4.app.Fragment
 import android.content.Context
 import android.os.Bundle
@@ -20,6 +21,7 @@ import io.github.krisbox.mytvscheduler.database.TVSchedulerDBDelete
 import io.github.krisbox.mytvscheduler.database.TVSchedulerDBGet
 import io.github.krisbox.mytvscheduler.database.TVSchedulerDBInsert
 
+@SuppressLint("ValidFragment")
 /**
  * Description: Shows the information of a program given an ID
  * @author Kris
@@ -39,7 +41,7 @@ class ProgramInformationFragment(internal var id: String, internal var context: 
 
     /**
      * Give all the data for the program view when the view is created:
-     * Images, text, tabs, cardview_episode list etc
+     * Images, text, tabs, cardview episode list etc
      */
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,11 +49,14 @@ class ProgramInformationFragment(internal var id: String, internal var context: 
         val program = Search(context, "", id).programData
         val episodeList = Search(context, program.programNoOfSeasons.toString(), id).episodeData
 
+        // Get path of poster for transferring.
+        program.programPoster = context.cacheDir.toString() + "/" + id + "cover" + ".jpg"
+
         val title = view?.findViewById(R.id.title) as TextView
         title.text = program.programName
 
         val backdrop = view.findViewById(R.id.backdrop) as ImageView
-        backdrop.setImageBitmap(program.programBackdrop)
+        program.setImageToView(backdrop, "back")
 
         val date = view.findViewById(R.id.date) as TextView
         date.text = program.programRelease
@@ -69,7 +74,6 @@ class ProgramInformationFragment(internal var id: String, internal var context: 
         tab.setupWithViewPager(viewPager)
 
         val addToWatchlist = view.findViewById(R.id.add_to_watchlist) as Button
-        // TODO set text to remove if already in database
         val get = TVSchedulerDBGet(context)
         val present_query = "SELECT * FROM watch_list WHERE program_id = '" + episodeList[0][0].programID + "';"
         val present_cursor = get.db.rawQuery(present_query, null)
@@ -85,7 +89,7 @@ class ProgramInformationFragment(internal var id: String, internal var context: 
 
             if (addToWatchlist.text == "Add To Watchlist") {
                 val insert = TVSchedulerDBInsert(context)
-                insert.insertToWatchlist(episodeList)
+                insert.insertToWatchlist(program, episodeList)
                 insert.db.close()
 
                 // Refresh to change text
@@ -109,7 +113,7 @@ class ProgramInformationFragment(internal var id: String, internal var context: 
      * Creates the view pager which allows the user to slide and scroll through the episodes
      */
     fun setupViewPager (viewPager: ViewPager, program: Program, episodeList: ArrayList<ArrayList<Episode>>){
-        val adapter = EpisodePagerAdapter(childFragmentManager, episodeList, context)
+        val adapter = EpisodePagerAdapter(childFragmentManager, program, episodeList, context)
 
         for ( i in 0..(program.programNoOfSeasons!!.toInt()) - 1){
             adapter.addFragTitle((i+1).toString())

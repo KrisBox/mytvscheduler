@@ -1,6 +1,7 @@
 package io.github.krisbox.mytvscheduler.database
 
 import android.content.Context
+import java.io.File
 
 /**
  * Description: Do all Delete operations here
@@ -19,6 +20,19 @@ class TVSchedulerDBDelete (internal var context: Context) {
      */
     fun deleteFromWatchlist(programID: String) {
         db.delete(TVSchedulerContract().DBEntry().TABLE_NAME_WATCHLIST, TVSchedulerContract().DBEntry().COLUMN_NAME_WL_PROGRAM_ID + "=" + programID, null)
+
+        //Deletes pictures from perm storage
+        var permDir = context.filesDir.toString()
+
+        var pathC = permDir + programID + "cover" + ".jpg"
+        var pathP = permDir + programID + "back" + ".jpg"
+        var fileC = File(pathC)
+        var fileP = File(pathP)
+        if (fileC.exists() && fileP.exists()){
+            fileC.delete()
+            fileP.delete()
+        }
+
     }
 
     /**
@@ -26,13 +40,48 @@ class TVSchedulerDBDelete (internal var context: Context) {
      */
     fun deleteAllWatchlist(){
         db.delete(TVSchedulerContract().DBEntry().TABLE_NAME_WATCHLIST, null, null)
+
+        // Delete all images from the files directory
+        trimCache(context.filesDir)
+
     }
 
     /**
      * Delete the cache
      */
     fun deleteAllCache(){
-        db.delete(TVSchedulerContract().DBEntry().TABLE_NAME_PROGRAM_CACHE, null, null)
-        db.delete(TVSchedulerContract().DBEntry().TABLE_NAME_EPISODE_CACHE, null, null)
+        trimCache(context.cacheDir)
     }
+
+    /**
+     * Checks if directory exists
+     */
+    fun trimCache(dir: File?) {
+        try {
+            if (dir != null && dir.isDirectory) {
+                deleteDir(dir)
+            }
+        } catch (e: Exception) {}
+
+    }
+
+    /**
+     * Deletes directory
+     */
+    fun deleteDir(dir: File?): Boolean {
+        if (dir != null && dir.isDirectory) {
+            val children = dir.list()
+            for (i in children.indices) {
+                val success = deleteDir(File(dir, children[i]))
+                if (!success) {
+                    return false
+                }
+            }
+        }
+
+        // The directory is now empty so delete it
+        return dir!!.delete()
+    }
+
+
 }

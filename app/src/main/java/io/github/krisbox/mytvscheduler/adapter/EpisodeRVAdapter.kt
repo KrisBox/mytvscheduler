@@ -13,6 +13,7 @@ import io.github.krisbox.mytvscheduler.database.TVSchedulerDBHelper
 import io.github.krisbox.mytvscheduler.database.TVSchedulerDBInsert
 import io.github.krisbox.mytvscheduler.database.TVSchedulerDBUpdate
 import io.github.krisbox.mytvscheduler.dataclasses.Episode
+import io.github.krisbox.mytvscheduler.dataclasses.Program
 import java.util.ArrayList
 
 /**
@@ -24,7 +25,7 @@ import java.util.ArrayList
  * Copyright (c) Kristofer Box 2017
  */
 
-class EpisodeRVAdapter internal constructor(internal var episodes: ArrayList<ArrayList<Episode>>, internal val seasonNumber: String, internal var context: Context) : RecyclerView.Adapter<EpisodeRVAdapter.EPViewHolder>() {
+class EpisodeRVAdapter internal constructor(internal var program: Program, internal var episodes: ArrayList<ArrayList<Episode>>, internal val seasonNumber: String, internal var context: Context) : RecyclerView.Adapter<EpisodeRVAdapter.EPViewHolder>() {
     /**
      * Inner class gathers all the elements in which data will be propagated
      */
@@ -67,7 +68,7 @@ class EpisodeRVAdapter internal constructor(internal var episodes: ArrayList<Arr
 
                 //Insert all to watchlist when a check is pressed
                 val insert = TVSchedulerDBInsert(context)
-                insert.insertToWatchlist(episodes)
+                insert.insertToWatchlist(program, episodes)
                 insert.db.close()
 
                 val update = TVSchedulerDBUpdate(context)

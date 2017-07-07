@@ -50,10 +50,6 @@ class Search(private val context: Context, private val query: String, private va
                 val format = FormatJSON(info, context)
                 val program = format.programFormat()
 
-                val insertCacheProgram = TVSchedulerDBInsert(context)
-                insertCacheProgram.insertProgramCache(program)
-                insertCacheProgram.db.close()
-
                 return program
             }
 

@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.PagerAdapter
 import io.github.krisbox.mytvscheduler.dataclasses.Episode
 import io.github.krisbox.mytvscheduler.fragments.Program.EpisodeFragment
-
+import io.github.krisbox.mytvscheduler.dataclasses.Program
 
 /**
  * Description: Adapter for the List of List of Episodes to show in Program View (For the Pager)
@@ -20,7 +20,7 @@ import io.github.krisbox.mytvscheduler.fragments.Program.EpisodeFragment
  * Copyright (c) Kris Box 2017
  */
 
-class EpisodePagerAdapter(manager: FragmentManager, internal var episodeList: ArrayList<ArrayList<Episode>>, internal var context: Context) : FragmentStatePagerAdapter(manager) {
+class EpisodePagerAdapter(manager: FragmentManager, internal var program: Program, internal var episodeList: ArrayList<ArrayList<Episode>>, internal var context: Context) : FragmentStatePagerAdapter(manager) {
 
     private val mFragmentTitleList = ArrayList<String>()
 
@@ -30,11 +30,11 @@ class EpisodePagerAdapter(manager: FragmentManager, internal var episodeList: Ar
     override fun getItem(position: Int): Fragment {
         for ( i in 0..count) {
             if (i == position) {
-                return EpisodeFragment(episodeList, (i+1).toString(), context)
+                return EpisodeFragment(program, episodeList, (i+1).toString(), context)
             }
         }
         // This will never happen but is needed
-        return EpisodeFragment(episodeList, "1", context)
+        return EpisodeFragment(program, episodeList, "1", context)
     }
 
     /**

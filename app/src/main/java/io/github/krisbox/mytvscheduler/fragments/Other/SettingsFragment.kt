@@ -1,5 +1,6 @@
 package io.github.krisbox.mytvscheduler.fragments.Other
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -10,12 +11,13 @@ import android.widget.Button
 import io.github.krisbox.mytvscheduler.R
 import io.github.krisbox.mytvscheduler.database.TVSchedulerDBDelete
 
+@SuppressLint("ValidFragment")
 /**
- * Description: TODO
+ * Description: Allows the user to delete the cache and clear their watchlist
  * @author Kris
  * Time: 12:46
  * Date: 15/06/2017
- * Last Updated: 15/06/2017
+ * @version: 1.0
  * Copyright (c) Kristofer Box 2017
  */
 

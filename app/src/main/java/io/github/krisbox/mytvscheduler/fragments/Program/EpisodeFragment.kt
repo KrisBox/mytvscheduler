@@ -1,5 +1,6 @@
 package io.github.krisbox.mytvscheduler.fragments.Program
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.content.Context
 import android.support.v4.app.Fragment
@@ -11,11 +12,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import io.github.krisbox.mytvscheduler.R
 import io.github.krisbox.mytvscheduler.adapter.EpisodeRVAdapter
+import io.github.krisbox.mytvscheduler.database.TVSchedulerDBInsert
 import io.github.krisbox.mytvscheduler.database.TVSchedulerDBUpdate
 import io.github.krisbox.mytvscheduler.dataclasses.Episode
+import io.github.krisbox.mytvscheduler.dataclasses.Program
 
 
-
+@SuppressLint("ValidFragment")
 /**
  * Description: Propagates the Episode cardview for a season of the selected cardviewepisode
  *
@@ -26,7 +29,7 @@ import io.github.krisbox.mytvscheduler.dataclasses.Episode
  * Copyright (c) Kris Box 2017
  */
 
-class EpisodeFragment(private var episodes: ArrayList<ArrayList<Episode>>, internal var seasonNo: String, internal var context: Context) : Fragment(){
+class EpisodeFragment(private var program: Program, private var episodes: ArrayList<ArrayList<Episode>>, internal var seasonNo: String, internal var context: Context) : Fragment(){
 
     /**
      * Inflate the xml when creating the view
@@ -46,12 +49,18 @@ class EpisodeFragment(private var episodes: ArrayList<ArrayList<Episode>>, inter
 
         rv.layoutManager = llm
 
-        val adapter = EpisodeRVAdapter(episodes, seasonNo, context)
+        val adapter = EpisodeRVAdapter(program, episodes, seasonNo, context)
         rv.adapter = adapter
 
         val seasonButt = view.findViewById(R.id.season_watched) as Button
 
         seasonButt.setOnClickListener {
+
+            //Insert all to watchlist when a check is pressed
+            val insert = TVSchedulerDBInsert(context)
+            insert.insertToWatchlist(program, episodes)
+            insert.db.close()
+
             // Get season info and update all episodes
             val id = episodes[seasonNo.toInt() - 1][0].programID
             val seasonNo = episodes[seasonNo.toInt() - 1][0].seasonNo

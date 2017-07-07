@@ -38,7 +38,7 @@
         android:id="@+id/copy_version"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="\u00a9 Kris Box 2017 v0.1 DEVELOPMENT"
+        android:text="\u00a9 Kris Box 2017 v0.2 DEVELOPMENT"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="11dp" />

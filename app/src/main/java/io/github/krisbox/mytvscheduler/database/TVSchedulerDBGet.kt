@@ -46,7 +46,7 @@ class TVSchedulerDBGet (internal var context: Context) {
 
             if (program_cursor.moveToFirst()) {
                 program.id = program_cursor.getString(1)
-                program.programPoster = program.fromByteArray(program_cursor.getBlob(2))
+                program.programPoster = program_cursor.getString(2)
                 program.programName = program_cursor.getString(4)
                 program.programRelease = program_cursor.getString(5)
                 program_cursor.close()
@@ -67,31 +67,5 @@ class TVSchedulerDBGet (internal var context: Context) {
         db.close()
         return programs
     }
-
-    fun getCoverUrl( id: String ) : String {
-        val query = "SELECT cover_url FROM program_cache WHERE program_id = '" + id + "'"
-        val cursor = db.rawQuery(query, null)
-        var res = "null"
-        if (cursor.moveToFirst()){
-            res = cursor.getString(0)
-        }
-        cursor.close()
-        db.close()
-        return res
-    }
-
-    fun getBackUrl ( id: String) : String {
-        val query = "SELECT back_url FROM program_cache WHERE program_id = '" + id + "'"
-        val cursor = db.rawQuery(query, null)
-        var res = "null"
-        if (cursor.moveToFirst()){
-            res = cursor.getString(0)
-        }
-        cursor.close()
-        db.close()
-        return res
-    }
-
-
 
 }

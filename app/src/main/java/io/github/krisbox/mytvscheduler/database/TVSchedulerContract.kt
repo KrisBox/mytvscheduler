@@ -31,6 +31,7 @@ class TVSchedulerContract {
             val COLUMN_NAME_PC_OVERVIEW = "overview"
             val COLUMN_NAME_PC_COVER_URL = "cover_url"
             val COLUMN_NAME_PC_BACK_URL = "back_url"
+            val COLUMN_NAME_PC_GENRES =   "genre_ids"
 
             //TABLE: Episode Cache
             val TABLE_NAME_EPISODE_CACHE = "episode_cache"
@@ -52,11 +53,11 @@ class TVSchedulerContract {
 
     //Statement for Create Table Program Cache
     val CREATE_PROGRAM_CACHE_TABLE = ("CREATE TABLE " + DBEntry().TABLE_NAME_PROGRAM_CACHE + "(" + DBEntry().ID + " INTEGER PRIMARY KEY,"
-    + DBEntry().COLUMN_NAME_PC_PROGRAM_ID + " TEXT, " + DBEntry().COLUMN_NAME_PC_COVER_IMAGE + " BLOB, "
-    + DBEntry().COLUMN_NAME_PC_BACK_IMAGE + " BLOB, " + DBEntry().COLUMN_NAME_PC_NAME + " TEXT, "
+    + DBEntry().COLUMN_NAME_PC_PROGRAM_ID + " TEXT, " + DBEntry().COLUMN_NAME_PC_COVER_IMAGE + " TEXT, "
+    + DBEntry().COLUMN_NAME_PC_BACK_IMAGE + " TEXT, " + DBEntry().COLUMN_NAME_PC_NAME + " TEXT, "
     + DBEntry().COLUMN_NAME_PC_AIR + " TEXT, " + DBEntry().COLUMN_NAME_PC_RATING + " TEXT, "
     + DBEntry().COLUMN_NAME_PC_OVERVIEW + " TEXT, " + DBEntry().COLUMN_NAME_PC_COVER_URL + " TEXT, "
-    + DBEntry().COLUMN_NAME_PC_BACK_URL + " TEXT" +
+    + DBEntry().COLUMN_NAME_PC_BACK_URL + " TEXT, " + DBEntry().COLUMN_NAME_PC_GENRES + " TEXT" +
     ")")
 
     //Statement for Create Table Episode Cache

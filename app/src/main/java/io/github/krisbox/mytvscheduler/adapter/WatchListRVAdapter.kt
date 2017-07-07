@@ -1,6 +1,9 @@
 package io.github.krisbox.mytvscheduler.adapter
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.os.Environment
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -33,7 +36,6 @@ class WatchListRVAdapter internal constructor(internal var programmes: ArrayList
         internal var programEpisodesTotal: TextView = cv.findViewById(R.id.episodes_total) as TextView
         internal var programPoster: ImageView = cv.findViewById(R.id.imageView) as ImageView
         internal var programID: TextView = cv.findViewById(R.id.program_id) as TextView
-
     }
 
     /**
@@ -58,7 +60,7 @@ class WatchListRVAdapter internal constructor(internal var programmes: ArrayList
     override fun onBindViewHolder(tvViewHolder: TVViewHolder, i: Int) {
         tvViewHolder.programName.text = programmes[i].programName
         tvViewHolder.programRelease.text = programmes[i].programRelease
-        tvViewHolder.programPoster.setImageBitmap(programmes[i].programPoster)
+        programmes[i].setImageToView(tvViewHolder.programPoster, "cover")
         tvViewHolder.programEpisodesWatched.text = programmes[i].programEpisodeViews
         tvViewHolder.programEpisodesTotal.text = (" of " + programmes[i].programEpisodeTotal)
         tvViewHolder.programID.text = programmes[i].id

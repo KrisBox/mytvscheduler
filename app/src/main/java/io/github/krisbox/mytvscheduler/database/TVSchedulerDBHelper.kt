@@ -27,16 +27,22 @@ class TVSchedulerDBHelper(context: Context) : SQLiteOpenHelper(context, TVSchedu
     }
 
     /**
-     * Required, not used
+     * Resets the database when updating.
      */
-    override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {}
+    override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+        val tv = TVSchedulerContract()
+        db.execSQL("DROP TABLE IF EXISTS " + tv.DBEntry().TABLE_NAME_PROGRAM_CACHE)
+        db.execSQL("DROP TABLE IF EXISTS " + tv.DBEntry().TABLE_NAME_EPISODE_CACHE)
+        db.execSQL("DROP TABLE IF EXISTS " + tv.DBEntry().TABLE_NAME_WATCHLIST)
+        onCreate(db)
+    }
 
     /**
      * Required for Super
      */
     companion object {
         // Increment when changing schema.
-        val DATABASE_VERSION = 1
+        val DATABASE_VERSION = 3
         val DATABASE_NAME = "TVScheduler.db"
     }
 }

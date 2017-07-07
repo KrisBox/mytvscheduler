@@ -3,10 +3,10 @@ package io.github.krisbox.mytvscheduler.dataclasses
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.widget.ImageView
 import io.github.krisbox.mytvscheduler.R
-import io.github.krisbox.mytvscheduler.database.TVSchedulerDBGet
-import io.github.krisbox.mytvscheduler.searching.GetImage
-import java.io.ByteArrayOutputStream
+import io.github.krisbox.mytvscheduler.searching.DownloadImage
+import java.io.File
 
 /**
  * Description: Stores the info for a specific program when searching. Also gets the poster from the webs.
@@ -21,18 +21,19 @@ class Program(internal var context: Context) {
     // Program information declarations
     var programName: String? = null
     var programRelease: String? = null
-    var programPoster: Bitmap? = null
+    var programPoster: String? = null
     var programPosterURL: String? = null
     var programRating: String? = null
+    var programGenres: String? = null
     var id: String? = null
 
     // Program Extended information declarations
     var programOverview: String? = null
-    var programBackdrop: Bitmap? = null
+    var programBackdrop: String? = null
     var programBackdropURL: String? = null
     var programNoOfSeasons: String? = null
 
-    //Watchlist
+    // Watchlist
     var programEpisodeViews: String? = null
     var programEpisodeTotal: String? = null
 
@@ -45,20 +46,7 @@ class Program(internal var context: Context) {
         programPosterURL = info[2]
         programRating = info[3]
         id = info[4]
-
-        // Get image if available, show default if not
-        if (programPosterURL != "null"){
-            val dbPosterUrl = TVSchedulerDBGet(context).getCoverUrl(id!!)
-            if (dbPosterUrl == programPosterURL){
-                var image = GetImage(id!!).getCoverArray(context)
-                programPoster = fromByteArray(image)
-            } else {
-                val image = GetImage("https://image.tmdb.org/t/p/original/" + programPosterURL)
-                programPoster = image.image
-            }
-        }else {
-            programPoster = BitmapFactory.decodeResource(context.resources, R.drawable.no_poster)
-        }
+        programGenres = info[5]
     }
 
     /**
@@ -72,51 +60,70 @@ class Program(internal var context: Context) {
         programRating = info[3]
         id = info[4]
 
-        // Get images if available, use defaults if not
-        if (programPosterURL != "null"){
-            val dbPosterUrl = TVSchedulerDBGet(context).getCoverUrl(id!!)
-            if (dbPosterUrl == programPosterURL){
-                var image = GetImage(id!!).getCoverArray(context)
-                programPoster = fromByteArray(image)
-            } else {
-                val image = GetImage("https://image.tmdb.org/t/p/w500/" + programPosterURL)
-                programPoster = image.image
-            }
-        }else {
-            programPoster = BitmapFactory.decodeResource(context.resources, R.drawable.no_poster)
-        }
-
-        if (programBackdropURL != "null"){
-            val dbBackdropUrl = TVSchedulerDBGet(context).getBackUrl(id!!)
-            if (dbBackdropUrl == programBackdropURL){
-                var image = GetImage(id!!).getBackArray(context)
-                programBackdrop = fromByteArray(image)
-            } else {
-                val image = GetImage("https://image.tmdb.org/t/p/w500/" + programBackdropURL)
-                programBackdrop = image.image
-            }
-        }else {
-            programBackdrop = BitmapFactory.decodeResource(context.resources, R.drawable.no_poster)
-        }
-
         programOverview = info[5]
         programNoOfSeasons = info[7]
     }
 
+    /**
+     * Used to apply the image to the image view once downloaded.
+     * @param imageView : Imageview
+     * @param type : String (Either cover or back)
+     */
+    fun setImageToView(imageView: ImageView, type: String){
+        var url: String?
+        var imagePath: String = ""
+        var alreadySet: Boolean = false
+        if (type == "cover"){
+            url = programPosterURL
+        } else {
+            url = programBackdropURL!!
+        }
 
-    fun toByteArrayCover(): ByteArray {
-        val stream = ByteArrayOutputStream()
-        programPoster!!.compress(Bitmap.CompressFormat.PNG, 100, stream)
-        return stream.toByteArray()
+        if (url != "null"){
+
+            // Does it already exist in cache or permanent
+            val potentialPathCache = context.cacheDir.toString() + "/" + id!! + type + ".jpg"
+            val potentialPathPerm = context.filesDir.toString() + "/" + id!! + type + ".jpg"
+            if (imageInCache(potentialPathCache)) {
+                imagePath = potentialPathCache
+            } else if (imageInCache(potentialPathPerm)){
+                imagePath = potentialPathPerm
+            // If not, download it
+            } else {
+                val download = DownloadImage(context, id!!, type, imageView)
+                download.execute("https://image.tmdb.org/t/p/original/" + url)
+                imagePath = download.finalPath
+                alreadySet = true
+            }
+
+        }else {
+            imagePath = "default"
+        }
+
+        // It will be set if it has been downloaded
+        if (!alreadySet) {
+            val options = BitmapFactory.Options()
+            options.inPreferredConfig = Bitmap.Config.RGB_565
+
+            if (imagePath != "default"){
+                imageView.setImageBitmap(BitmapFactory.decodeFile(imagePath, options))
+            } else {
+                imageView.setImageBitmap(BitmapFactory.decodeResource(context.resources, R.drawable.no_poster, options))
+            }
+        }
+
+        if (type == "cover") {
+            programPoster = imagePath
+        } else {
+            programBackdrop = imagePath
+        }
     }
 
-    fun toByteArrayPoster(): ByteArray {
-        val stream = ByteArrayOutputStream()
-        programBackdrop!!.compress(Bitmap.CompressFormat.PNG, 100, stream)
-        return stream.toByteArray()
-    }
-
-    fun fromByteArray(array: ByteArray) : Bitmap {
-        return BitmapFactory.decodeByteArray(array, 0, array.size)
+    /**
+     * Checks if an image is in the cache
+     */
+    fun imageInCache( path: String) : Boolean {
+        val file = File(path)
+        return file.exists()
     }
 }

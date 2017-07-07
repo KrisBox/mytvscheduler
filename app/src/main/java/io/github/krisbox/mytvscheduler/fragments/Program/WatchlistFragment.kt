@@ -1,5 +1,6 @@
 package io.github.krisbox.mytvscheduler.fragments.Program
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -15,6 +16,7 @@ import io.github.krisbox.mytvscheduler.adapter.WatchListRVAdapter
 import io.github.krisbox.mytvscheduler.database.TVSchedulerDBGet
 import io.github.krisbox.mytvscheduler.support.RecyclerItemClickListener
 
+@SuppressLint("ValidFragment")
 /**
  * Description: Fragment for My Watchlist: Handles the loading of info from database 0
  * @author Kris
@@ -65,6 +67,7 @@ class WatchlistFragment(internal var context: Context) : Fragment(){
                 val searchFrag = fragmentManager.findFragmentByTag("WATCHLIST_FRAGMENT")
                 if (searchFrag != null && searchFrag.isVisible){
                     fragmentTransaction.replace(R.id.search_fragment_placeholder, programInfo)
+                    fragmentTransaction.addToBackStack("PROGRAM_INFORMATION_FRAGMENT")
                     fragmentTransaction.commit()
                 }
             }

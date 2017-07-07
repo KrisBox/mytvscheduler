@@ -40,7 +40,6 @@ class GetData(private val programmeName: String) {
         } catch (e: Exception) {
             println("Couldn't make a connection")
         }
-
     }
 
     /**
